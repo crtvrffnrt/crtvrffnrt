@@ -1,4 +1,2 @@
-- 👋 Hi, I’m @crtvrffnrt
-- 👀 I’m interested in Red-Teaming, Blue-Teaming, Microsoft Defender XDR, Microsoft Sentinel, Threat-Intelligence and Vulnerability Management
-- 🌱 I’m always learning to be a better Defender
-
+Hi, I’m Patrick Binder .
+I work across Microsoft Cloud security with a strong focus on Azure offensive security, Entra ID attack paths, and real-world Microsoft cloud pentesting. My work bridges red teaming, incident response, and SOC architecture, with an emphasis on understanding how attacks actually traverse the Microsoft security stack and how to detect and contain them effectively. I actively research Microsoft Defender XDR and Microsoft Sentinel, build custom tooling and automation, and translate adversary techniques into practical detection engineering and operational SOC improvements. Continuous learning is core to my work, with a constant focus on mastering how Microsoft cloud services behave under attack and at scale.
