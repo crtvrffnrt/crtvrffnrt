@@ -8,23 +8,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.284.0/lucide.min.js"></script>
     <style>
         :root {
-            --bg: #ffffff;
-            --text-primary: #1a1a1a;
-            --text-secondary: #6b6b6b;
-            --accent: #292929;
-            --border: #e6e6e6;
-            --highlight: #000000;
-            --neon-blue: #0070f3;
+            --bg: #0B0B0B;
+            --bg-panel: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #C7C7C7;
+            --accent: #00C8FF;
+            --border: #2A2A2A;
+            --highlight: #FFFFFF;
+            --btn-bg: #0099FF;
+            --btn-hover: #007ACC;
             --max-width: 1100px;
-        }
-
-        [data-theme='dark'] {
-            --bg: #0a0a0a;
-            --text-primary: #f0f0f0;
-            --text-secondary: #a0a0a0;
-            --accent: #f0f0f0;
-            --border: #222;
-            --highlight: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,8 +28,29 @@
             color: var(--text-primary);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
         }
+
+        /* Tactical Widgets and sections use Secondary Background */
+        .widget-area, .card, section#domain-intel > div, section#ip-intel > div, section#claw-terminal > div {
+            background-color: var(--bg-panel) !important;
+        }
+
+        /* Buttons using Primary Button colors */
+        .btn-primary {
+            background: var(--btn-bg) !important;
+            color: #FFFFFF !important;
+        }
+        .btn-primary:hover {
+            background: var(--btn-hover) !important;
+        }
+
+        /* Accent for links and special tags */
+        .section-tag, .card-category, .nav-link:hover, .mono.underline {
+            color: var(--accent) !important;
+        }
+        
+        .skill-fill { background: var(--accent) !important; }
+        .skill-track { background: var(--border) !important; }
 
         /* Typography Inspired by Medium */
         h1, h2, h3 { font-weight: 800; letter-spacing: -0.02em; color: var(--highlight); }

@@ -8,13 +8,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.284.0/lucide.min.js"></script>
     <style>
         :root {
-            --bg: #0a0a0a;
-            --text-primary: #f0f0f0;
-            --text-secondary: #a0a0a0;
-            --accent: #f0f0f0;
-            --border: #222;
-            --highlight: #ffffff;
-            --neon-blue: #0070f3;
+            --bg: #0B0B0B;
+            --bg-panel: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #C7C7C7;
+            --accent: #00C8FF;
+            --border: #2A2A2A;
+            --highlight: #FFFFFF;
+            --btn-bg: #0099FF;
+            --btn-hover: #007ACC;
             --max-width: 800px; /* Thinner for blog reading */
         }
 
@@ -27,6 +29,20 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
         }
+
+        /* Tactical Widgets and sections use Secondary Background */
+        pre, .screenshot-container, .card, .recon-section {
+            background-color: var(--bg-panel) !important;
+        }
+
+        /* Accent for links and special tags */
+        .section-tag, .card-category, .nav-link:hover, .mono.underline, a {
+            color: var(--accent);
+        }
+        
+        /* Specific overrides for the card links in the footer */
+        .card .card-category, .card .card-title { color: var(--highlight); }
+        .card:hover { border-color: var(--accent) !important; }
 
         h1, h2, h3 { font-weight: 800; letter-spacing: -0.02em; color: var(--highlight); margin-top: 2em; margin-bottom: 1rem; }
         h1 { font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; margin-top: 0; }
