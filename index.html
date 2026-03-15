@@ -228,28 +228,26 @@
             </div>
             <p class="hero-description">Focused on Microsoft Cloud pentesting and offensive security with a strong emphasis on real-world attack paths across Entra ID, Azure, and the MS Online Services. I build autonomous systems and adversarial tools to secure the perimeter of modern identity infrastructure.</p>
             
-            <!-- Interactive Terminal (OhMyZsh style) -->
+            <!-- Interactive Terminal (Kali Linux Bash Style) -->
             <div class="terminal-container" id="terminal-container">
-                <div class="terminal-header" style="background: #2d2d2d; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center;">
+                <div class="terminal-header">
                     <div style="display: flex; gap: 8px;">
                         <div class="term-dot red" style="width: 12px; height: 12px; border-radius: 50%; background: #ff5f56;"></div>
                         <div class="term-dot yellow" style="width: 12px; height: 12px; border-radius: 50%; background: #ffbd2e;"></div>
                         <div class="term-dot green" style="width: 12px; height: 12px; border-radius: 50%; background: #27c93f;"></div>
                     </div>
-                    <div style="color: #ccc; font-size: 0.8rem;">patrick@binder-ops: ~ (zsh)</div>
+                    <div style="color: #ccc; font-size: 0.75rem;">root@kali: ~/ops</div>
                 </div>
-                <div style="padding: 20px; min-height: 300px;">
+                <div class="terminal-body">
                     <div id="term-output">
-                        <div class="term-output">Last login: Sun Mar 15 14:20:01 on ttys001
-Type <span class="cmd-list" style="color: #8be9fd;">'help'</span> to view available directives.</div>
+                        <div class="term-output" style="margin-bottom:15px; color:#888;">Linux kali 6.6.9-amd64 #1 SMP PREEMPT_DYNAMIC Kali 6.6.9-1kali1 (2024-01-08) x86_64<br>Last login: Sun Mar 15 14:20:01 on ttys001<br>Type <span style="color:#8be9fd">'help'</span> for available directives.</div>
                     </div>
-                    <div class="prompt" style="display: flex; align-items: center; margin-top: 10px;">
-                        <div class="prompt-user" style="background: #44475a; color: #fff; padding: 2px 10px; font-weight: bold;">patrick</div>
-                        <div class="prompt-arrow-1" style="width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 12px solid #44475a;"></div>
-                        <div class="prompt-path" style="background: #6272a4; color: #fff; padding: 2px 10px;">~/ops</div>
-                        <div class="prompt-arrow-2" style="width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 12px solid #6272a4;"></div>
-                        <div class="prompt-symbol" style="color: #50fa7b; margin-left: 10px; font-weight: bold;">❯</div>
-                        <input type="text" class="term-input" id="term-input" autofocus style="background: transparent; border: none; color: #f8f8f2; font-family: 'JetBrains Mono', monospace; font-size: 1rem; outline: none; flex: 1; margin-left: 10px;" spellcheck="false">
+                    <div class="prompt-kali-wrapper">
+                        <div class="prompt-kali-top">┌──(<span style="color:#ff5555">root㉿kali</span>)-[<span style="color:#fff">~/ops</span>]</div>
+                        <div class="prompt-kali-bottom">
+                            <span class="prompt-symbol-kali">└─$</span>
+                            <input type="text" class="term-input" id="term-input" autofocus spellcheck="false" style="margin-left:10px">
+                        </div>
                     </div>
                 </div>
             </div>
