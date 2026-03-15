@@ -3,36 +3,411 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Universal Trading Draft | Redirecting...</title>
+    <title>PATRICK BINDER // DEFENSIVE ARCHITECT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.284.0/lucide.min.js"></script>
     <style>
+        :root {
+            --bg: #000000;
+            --bg-panel: #0A0A0A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #C7C7C7;
+            --accent: #00C8FF;
+            --border: #1A1A1A;
+            --highlight: #FFFFFF;
+            --btn-bg: #0099FF;
+            --btn-hover: #007ACC;
+            --max-width: 1100px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
         body {
-            background-color: #071018;
-            color: #e8eff7;
-            font-family: sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Tactical Widgets and sections use Secondary Background */
+        .widget-area, .card, section div iframe {
+            background-color: var(--bg-panel) !important;
+        }
+
+        /* Buttons using Primary Button colors */
+        .btn-primary {
+            background: var(--btn-bg) !important;
+            color: #FFFFFF !important;
+        }
+        .btn-primary:hover {
+            background: var(--btn-hover) !important;
+        }
+
+        /* Accent for links and special tags */
+        .section-tag, .card-category, .nav-link:hover, .mono.underline {
+            color: var(--accent) !important;
+        }
+        
+        .skill-fill { background: var(--accent) !important; }
+        .skill-track { background: var(--border) !important; }
+
+        /* Typography Inspired by Medium */
+        h1, h2, h3 { font-weight: 800; letter-spacing: -0.02em; color: var(--highlight); }
+        .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-secondary); }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 20px 0;
+        }
+
+        .nav-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 40px;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            height: 100vh;
-            margin: 0;
         }
-        .loader {
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-top: 4px solid #63b3ff;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
+
+        .nav-brand { font-weight: 900; font-size: 1.1rem; text-transform: uppercase; cursor: pointer; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-link { 
+            text-decoration: none; 
+            color: var(--text-secondary); 
+            font-weight: 500; 
+            font-size: 0.9rem;
+            transition: color 0.2s;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .nav-link:hover { color: var(--highlight); }
+
+        /* Hero - Deepness and Insight */
+        .hero {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 120px 40px 80px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-meta { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+        .hero-title { font-size: clamp(2.7rem, 7.2vw, 4.5rem); line-height: 1.1; margin-bottom: 30px; }
+        .hero-description { font-size: 1.4rem; color: var(--text-secondary); max-width: 700px; font-weight: 400; }
+
+        /* Section Layout */
+        section {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .section-header { margin-bottom: 50px; }
+        .section-tag { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.1em; margin-bottom: 10px; display: block; }
+        .section-title { font-size: 2rem; }
+
+        /* Content Cards - Clean & Professional */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 30px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+
+        .card-category { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); }
+        .card-title { font-size: 1.4rem; line-height: 1.3; }
+        .card-desc { color: var(--text-secondary); font-size: 0.95rem; }
+        .card-footer { display: flex; align-items: center; gap: 10px; font-size: 0.8rem; font-weight: 600; margin-top: auto; }
+
+        /* Tactical Widgets */
+        .widget-area {
+            background: var(--bg-panel);
+            border-radius: 4px;
+            padding: 40px;
+            margin-top: 40px;
+        }
+
+        /* Dossier - Expertise Scan */
+        .dossier-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .skill-item { margin-bottom: 25px; }
+        .skill-label { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; }
+        .skill-track { height: 2px; background: var(--border); position: relative; }
+        .skill-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); }
+
+        /* Interactive Elements */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--btn-bg);
+            color: #FFFFFF;
+            padding: 12px 25px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+        .btn-primary:hover { opacity: 0.8; }
+
+        /* Media Queries */
+        @media (max-width: 800px) {
+            .hero { padding: 80px 20px; }
+            .dossier-grid { grid-template-columns: 1fr; gap: 40px; }
+            .nav-links { display: none; }
         }
     </style>
-    <script>
-        window.location.href = "https://patrickbrand34846.z6.web.core.windows.net/index.html";
-    </script>
 </head>
 <body>
-    <div class="loader"></div>
+
+    <nav>
+        <div class="nav-content">
+            <div class="nav-brand" onclick="window.scrollTo(0,0)">PB | SOC Analyst | Incident Responder | Pentester</div>
+            <div class="nav-links">
+                <a href="#intel" class="nav-link">Intelligence</a>
+                <a href="#lab" class="nav-link">Laboratory</a>
+                <a href="#dossier" class="nav-link">Dossier</a>
+                <a href="https://github.com/crtvrffnrt" class="nav-link">GitHub</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-meta mono uppercase">
+                <span>Directives: Active</span>
+                <span>•</span>
+                <span>Node: Azure_34846</span>
+                <span>•</span>
+                <span>2026.03.15</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 60px; margin-bottom: 40px;">
+                <h1 class="hero-title" style="margin-bottom: 0; flex: 1;">
+                    Offensive & Defensive Cybersecurity Expert <span style="white-space: nowrap;">Patrick Binder</span>
+                </h1>
+                <div style="flex-shrink: 0; position: relative;">
+                    <img src="logo.png" alt="Patrick Binder" style="width: 275px; height: auto; display: block; border: none; filter: brightness(1.1); -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 95%); mask-image: radial-gradient(ellipse at center, black 40%, transparent 95%);">
+                </div>
+            </div>
+            <p class="hero-description">Focused on Microsoft Cloud pentesting and offensive security with a strong emphasis on real-world attack paths across Entra ID, Azure, and the MS Online Services. I build autonomous systems and adversarial tools to secure the perimeter of modern identity infrastructure.</p>
+            
+            <div style="margin-top: 50px; display: flex; gap: 20px;">
+                <a href="https://www.ipscan.info" target="_blank" class="btn-primary">
+                    <i data-lucide="crosshair" size="18"></i> INITIALIZE_RECON_MODULE
+                </a>
+                <a href="ir_blog.html" class="btn-primary" style="background: transparent !important; border: 1px solid var(--border) !important;">
+                    <i data-lucide="file-text" size="18"></i> READ_LATEST_INTEL
+                </a>
+            </div>
+        </section>
+
+        <section id="intel">
+            <div class="section-header">
+                <span class="section-tag">Archive // Latest Drops</span>
+                <h2 class="section-title">Technical Intel & Research</h2>
+            </div>
+            <div class="grid">
+                <a href="kql_forge_blog.html" class="card">
+                    <span class="card-category">Detection Engineering</span>
+                    <h3 class="card-title">Sentinel KQL Forge: Natural Language to Hunting</h3>
+                    <p class="card-desc">Bridging the gap between analyst intent and Kusto Query Language through schema-aware synthesis.</p>
+                    <div class="card-footer">
+                        <span>Read Post</span>
+                        <i data-lucide="arrow-right" size="16"></i>
+                    </div>
+                </a>
+                <a href="ir_blog.html" class="card">
+                    <span class="card-category">Incident Response</span>
+                    <h3 class="card-title">Gemini-Powered Azure IR: KQL Mastery and Automated Intelligence</h3>
+                    <p class="card-desc">Building autonomous response nodes utilizing Gemini CLI for real-time Azure REST API interrogation and forensic sweeps.</p>
+                    <div class="card-footer">
+                        <span>Read Post</span>
+                        <i data-lucide="arrow-right" size="16"></i>
+                    </div>
+                </a>
+                <a href="https://patrickbinder.medium.com/entra-id-password-spraying-using-apim-as-ip-rotating-mechanism-3620861dd66a" target="_blank" class="card">
+                    <span class="card-category">Offensive Research</span>
+                    <h3 class="card-title">Entra ID Password Spraying using APIM as IP-Rotating Mechanism</h3>
+                    <p class="card-desc">Leveraging Azure API Management to bypass reputation-based defenses and scale credential-based attacks.</p>
+                    <div class="card-footer">
+                        <span>Medium.com</span>
+                        <i data-lucide="external-link" size="16"></i>
+                    </div>
+                </a>
+                <a href="https://patrickbinder.medium.com/app-passwords-in-microsoft-entra-id-a-hidden-mfa-bypass-risk-0c70973a078e" target="_blank" class="card">
+                    <span class="card-category">Forensics</span>
+                    <h3 class="card-title">App Passwords in Entra ID: A Hidden MFA Bypass Risk</h3>
+                    <p class="card-desc">Uncovering the legacy authentication gaps that allow attackers to bypass modern Conditional Access controls.</p>
+                    <div class="card-footer">
+                        <span>Medium.com</span>
+                        <i data-lucide="external-link" size="16"></i>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section id="domain-intel">
+            <div class="section-header">
+                <span class="section-tag">Worker // Live Recon</span>
+                <h2 class="section-title">Domain Intelligence</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">A specialized Cloudflare Worker designed for rapid reconnaissance of Microsoft 365 tenants. It extracts public metadata, identifies associated domains, and maps tenant IDs from a single entry point.</p>
+                <div style="margin-top: 15px;">
+                    <a href="https://domain.ipscan.info/" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
+                </div>
+            </div>
+            <div style="width: 100%; height: 600px; background: var(--bg-panel); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px;">
+                <iframe src="https://domain.ipscan.info/" style="width: 100%; height: 100%; border: none;" title="Domain Intelligence Lookup"></iframe>
+            </div>
+        </section>
+
+        <section id="ip-intel">
+            <div class="section-header">
+                <span class="section-tag">Worker // Network Recon</span>
+                <h2 class="section-title">IP Intelligence</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">High-velocity network analysis node. Provides real-time reputation scoring, geolocation, and ASN mapping for forensic investigation and offensive IP rotation validation.</p>
+                <div style="margin-top: 15px;">
+                    <a href="https://www.ipscan.info/" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
+                </div>
+            </div>
+            <div style="width: 100%; height: 600px; background: var(--bg-panel); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px;">
+                <iframe src="https://www.ipscan.info/" style="width: 100%; height: 100%; border: none;" title="IP Intelligence Lookup"></iframe>
+            </div>
+        </section>
+
+        <section id="claw-terminal">
+            <div class="section-header">
+                <span class="section-tag">Node // Automated Ops</span>
+                <h2 class="section-title">C-3PO Claw Terminal</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">Autonomous operation interface for orchestrating large-scale cloud assessments. Integrates directly with Azure REST APIs to automate the collection of offensive signals across the Entra ID surface.</p>
+                <div style="margin-top: 15px;">
+                    <a href="https://stc3ooclawrpfyx.z6.web.core.windows.net/" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
+                </div>
+            </div>
+            <div style="width: 100%; height: 600px; background: var(--bg-panel); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px;">
+                <iframe src="https://stc3ooclawrpfyx.z6.web.core.windows.net/" style="width: 100%; height: 100%; border: none;" title="Claw Terminal Live"></iframe>
+            </div>
+        </section>
+
+        <section id="github-intel">
+            <div class="section-header">
+                <span class="section-tag">Source // Offensive Repos</span>
+                <h2 class="section-title">GitHub Profile Intelligence</h2>
+            </div>
+            <a href="https://github.com/crtvrffnrt" target="_blank" style="text-decoration: none; display: block; margin-top: 20px;">
+                <div style="width: 100%; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; padding: 40px; transition: transform 0.2s, border-color 0.2s; position: relative; overflow: hidden;" onmouseover="this.style.borderColor='var(--accent)'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='translateY(0)'">
+                    <div style="display: flex; align-items: center; gap: 30px;">
+                        <img src="logo.png" alt="Profile" style="width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--accent);">
+                        <div>
+                            <h3 style="margin: 0; font-size: 1.8rem; color: var(--highlight);">crtvrffnrt</h3>
+                            <p class="mono" style="margin: 5px 0 15px; color: var(--accent);">Microsoft Cloud Offensive Specialist</p>
+                            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                                <span class="mono" style="font-size: 0.75rem; background: rgba(0, 200, 255, 0.1); padding: 4px 10px; border-radius: 100px; color: var(--accent);">30+ Repositories</span>
+                                <span class="mono" style="font-size: 0.75rem; background: rgba(255, 255, 255, 0.05); padding: 4px 10px; border-radius: 100px;">Python / KQL / Bicep</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px;">
+                        <p style="color: var(--text-secondary); font-size: 0.95rem;">Curated collection of tools for Entra ID password spraying, forensic log analysis, and Azure-native defensive architecture. Home of <strong>apimspray</strong> and <strong>Sentinel KQL Forge</strong>.</p>
+                    </div>
+                    <div style="margin-top: 20px; display: flex; align-items: center; gap: 10px; color: var(--accent); font-weight: 600; font-size: 0.9rem;">
+                        <span>VIEW_FULL_PROFILE</span>
+                        <i data-lucide="external-link" size="16"></i>
+                    </div>
+                </div>
+            </a>
+        </section>
+
+        <section id="lab" class="widget-area">
+            <div class="section-header">
+                <span class="section-tag">Node // Laboratory</span>
+                <h2 class="section-title">Tactical Software & Tools</h2>
+            </div>
+            <div class="grid">
+                <div class="card" style="border:none">
+                    <h3 class="card-title">Entra Path Sniper</h3>
+                    <p class="card-desc">AI-driven graph analysis identifying Tier-0 privilege escalation routes through nested memberships.</p>
+                    <div style="display:flex; gap:20px; margin-top:10px;">
+                        <a href="https://github.com/crtvrffnrt" class="mono underline">Source</a>
+                        <a href="entra-path-sniper/index.html" class="mono underline">Live_Node</a>
+                    </div>
+                </div>
+                <div class="card" style="border:none">
+                    <h3 class="card-title">Sentinel KQL Forge</h3>
+                    <p class="card-desc">Natural language to KQL synthesizer for rapid threat hunting and detection engineering.</p>
+                    <div style="display:flex; gap:20px; margin-top:10px;">
+                        <a href="https://github.com/crtvrffnrt" class="mono underline">Source</a>
+                        <a href="sentinel-kql-forge/index.html" class="mono underline">Live_Node</a>
+                    </div>
+                </div>
+                <div class="card" style="border:none">
+                    <h3 class="card-title">Neon Command</h3>
+                    <p class="card-desc">Unified C-3P8 dashboard for OSINT synthesis and simulation environments.</p>
+                    <div style="display:flex; gap:20px; margin-top:10px;">
+                        <a href="https://github.com/crtvrffnrt" class="mono underline">Source</a>
+                        <a href="index.html" class="mono underline">Self</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dossier">
+            <div class="section-header">
+                <span class="section-tag">Human // Dossier</span>
+                <h2 class="section-title">Patrick Binder</h2>
+            </div>
+            <div class="dossier-grid">
+                <div class="expertise">
+                    <p style="margin-bottom: 30px; color: var(--text-secondary);">Security Architect and offensive specialist with deep expertise in Microsoft cloud identity systems. I bridge the gap between architectural hardening and adversarial exploitation, ensuring that cloud-native environments are resilient against modern credential-based attack vectors.</p>
+                    <div class="skill-item">
+                        <div class="skill-label"><span>Entra ID / Azure AD Pentesting</span><span>95%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="width: 95%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label"><span>Detection Engineering & KQL</span><span>98%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="width: 98%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label"><span>Adversarial Emulation</span><span>90%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="width: 90%"></div></div>
+                    </div>
+                </div>
+                <div class="mission-history mono">
+                    <p style="margin-bottom:20px;"><strong>[CORE_FOCUS]</strong><br>Identifying and weaponizing real-world attack paths across Entra ID and MS Online Services to drive security maturity.</p>
+                    <p><strong>[OPERATIONS]</strong><br>Architecting distributed offensive tools (e.g., apimspray) and autonomous forensic nodes utilizing Gemini CLI and Azure REST APIs.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="padding: 100px 40px; text-align: center; border-top: 1px solid var(--border); opacity: 0.5;">
+        <p class="mono uppercase">System Protocol C-3P8 // Designed for the Elite // 2026</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
