@@ -261,9 +261,18 @@
                         <i data-lucide="arrow-right" size="16"></i>
                     </div>
                 </a>
+                <a href="apim_spray_de.html" class="card">
+                    <span class="card-category">Offensive Research</span>
+                    <h3 class="card-title">Entra ID Password Spraying via APIM (DE)</h3>
+                    <p class="card-desc">Nutzung von Azure API Management als IP-Rotations-Mechanismus zur Umgehung von Reputationsfiltern.</p>
+                    <div class="card-footer">
+                        <span>Blog lesen</span>
+                        <i data-lucide="arrow-right" size="16"></i>
+                    </div>
+                </a>
                 <a href="https://patrickbinder.medium.com/entra-id-password-spraying-using-apim-as-ip-rotating-mechanism-3620861dd66a" target="_blank" class="card">
                     <span class="card-category">Offensive Research</span>
-                    <h3 class="card-title">Entra ID Password Spraying using APIM as IP-Rotating Mechanism</h3>
+                    <h3 class="card-title">Entra ID Password Spraying via APIM (EN)</h3>
                     <p class="card-desc">Leveraging Azure API Management to bypass reputation-based defenses and scale credential-based attacks.</p>
                     <div class="card-footer">
                         <span>Medium.com</span>
@@ -347,28 +356,19 @@
                     <a href="bloodhound_app.html" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_HOW_TO_GUIDE ]</a>
                 </div>
             </div>
-            <div class="widget-area" style="border: 1px solid var(--border); border-radius: 8px; display: flex; flex-direction: column; gap: 20px;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div class="mono" style="color: var(--accent);">STATUS: NODE_READY</div>
-                    <div class="mono" style="font-size: 0.7rem;">BUILD_V1.0.4</div>
+            <div class="widget-area" style="border: 1px solid var(--border); border-radius: 8px; padding: 0; overflow: hidden; height: 600px; position: relative; background: #000 !important;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden;">
+                    <!-- Embedded BloodHound Canvas -->
+                    <iframe src="http://20.52.37.191/" style="width: 100%; height: 100%; border: none; filter: contrast(1.1) brightness(0.9) saturate(1.2);" title="BloodHound IR Canvas"></iframe>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
-                    <div style="padding: 15px; border: 1px solid var(--border); border-radius: 4px; background: rgba(0, 200, 255, 0.05);">
-                        <div class="mono" style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 5px;">CAPABILITY</div>
-                        <div style="font-weight: 600; font-size: 0.9rem;">Blast Radius Analysis</div>
-                    </div>
-                    <div style="padding: 15px; border: 1px solid var(--border); border-radius: 4px; background: rgba(0, 200, 255, 0.05);">
-                        <div class="mono" style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 5px;">CAPABILITY</div>
-                        <div style="font-weight: 600; font-size: 0.9rem;">Admin Path Mapping</div>
-                    </div>
-                    <div style="padding: 15px; border: 1px solid var(--border); border-radius: 4px; background: rgba(0, 200, 255, 0.05);">
-                        <div class="mono" style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 5px;">CAPABILITY</div>
-                        <div style="font-weight: 600; font-size: 0.9rem;">Triage Summary Gen</div>
-                    </div>
+                <div style="position: absolute; bottom: 20px; left: 20px; z-index: 10;">
+                    <a href="http://20.52.37.191/" target="_blank" class="btn-primary" style="box-shadow: 0 0 20px rgba(0, 153, 255, 0.4);">
+                        <i data-lucide="external-link" size="18"></i> LAUNCH_FULL_APPLICATION
+                    </a>
                 </div>
-                <a href="bloodhound_app.html" class="btn-primary" style="align-self: flex-start; margin-top: 10px;">
-                    <i data-lucide="layout" size="18"></i> OPEN_BLOODHOUND_WORKBOOK
-                </a>
+                <div style="position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.6); padding: 5px 10px; border-radius: 4px; border: 1px solid var(--border); z-index: 10;">
+                    <span class="mono" style="font-size: 0.7rem; color: var(--accent);">LIVE_APPLICATION_STREAM</span>
+                </div>
             </div>
         </section>
 
