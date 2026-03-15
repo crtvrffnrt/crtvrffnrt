@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>neon domain intel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* Palette from styles.md */
+      --shell-bg-primary: #03030a;
+      --shell-bg-secondary: #050111;
+      
+      --bloom-magenta: rgba(255, 79, 248, 0.18);
+      --bloom-cyan: rgba(76, 246, 255, 0.18);
+      
+      --panel-bg: rgba(6, 8, 14, 0.85);
+      --panel-border: 1px dashed rgba(255, 255, 255, 0.12);
+      --panel-shadow: 0 30px 70px rgba(5, 4, 12, 0.65);
+      
+      --text-primary: #f4f7ff;
+      --text-muted: #7f8cad;
+      
+      --accent-cyan: #4cf6ff;
+      --accent-magenta: #ff4ff8;
+      --accent-green: #5cff8d;
+      --accent-orange: #e8d66c;
+      --accent-error: #ff4c68;
+
+      --font-ui: "Space Grotesk", sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-ui);
+      background-color: var(--shell-bg-primary);
+      background-image: 
+        radial-gradient(circle at 50% 0%, var(--bloom-cyan), transparent 50%),
+        radial-gradient(circle at 50% 100%, var(--bloom-magenta), transparent 50%),
+        linear-gradient(var(--shell-bg-primary), var(--shell-bg-secondary));
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .frame {
+      max-width: 800px; /* Single column focus */
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    h1 {
+      font-family: var(--font-ui);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      background: linear-gradient(120deg, var(--text-primary), var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px var(--bloom-cyan);
+    }
+
+    /* Search Input */
+    .search-container {
+      margin-bottom: 3rem;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 1rem;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      background: transparent;
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 0 1px var(--accent-cyan), 0 0 20px var(--bloom-cyan);
+    }
+
+    button {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 0 2rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 1rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background: rgba(76, 246, 255, 0.12);
+      border-color: var(--accent-cyan);
+      color: var(--accent-magenta);
+      box-shadow: 0 0 15px var(--bloom-cyan);
+    }
+
+    /* Results Layout - Single Column */
+    .results-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--panel-bg);
+      border: var(--panel-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: var(--panel-shadow);
+      position: relative;
+      overflow: hidden;
+      animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+      transform: translateY(20px);
+      backdrop-filter: blur(10px);
+    }
+
+    .card h3 {
+      margin: 0 0 1rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-cyan);
+      border-bottom: 1px dashed rgba(255,255,255,0.1);
+      padding-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .card-content {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      word-break: break-all;
+      line-height: 1.6;
+    }
+
+    .card.tenant-id {
+      border-color: rgba(76, 246, 255, 0.4);
+    }
+    
+    .card.fallback {
+      border-color: rgba(255, 79, 248, 0.4);
+    }
+
+    .card.domains {
+      border-color: rgba(92, 255, 141, 0.4);
+    }
+
+    .domain-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .domain-tag {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .placeholder-text {
+      color: var(--accent-error);
+      opacity: 0.8;
+      font-style: italic;
+    }
+
+    .loader {
+      display: none;
+      text-align: center;
+      font-family: var(--font-mono);
+      color: var(--accent-cyan);
+      margin: 2rem 0;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <header>
+      <h1>neon domain intel</h1>
+    </header>
+
+    <div class="search-container">
+      <form id="lookup-form" class="search-box" autocomplete="off">
+        <input id="query" type="text" name="q" placeholder="Enter target domain or tenant ID..." spellcheck="false" />
+        <button type="submit">Scan Target</button>
+      </form>
+    </div>
+
+    <div id="loader" class="loader">
+      <span style="animation: blink 1s infinite">> Scanning public metadata...</span>
+    </div>
+
+    <div id="results" class="results-container"></div>
+
+  </div>
+
+  <script>
+    const form = document.getElementById("lookup-form");
+    const input = document.getElementById("query");
+    const resultsContainer = document.getElementById("results");
+    const loader = document.getElementById("loader");
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get("q");
+      if(q) {
+        input.value = q;
+        runLookup();
+      }
+    });
+
+    async function runLookup() {
+      const value = input.value.trim();
+      if (!value) return;
+      
+      const newUrl = new URL(window.location);
+      newUrl.searchParams.set('q', value);
+      window.history.pushState({}, '', newUrl);
+
+      resultsContainer.innerHTML = "";
+      loader.style.display = "block";
+
+      try {
+        const response = await fetch("/lookup?q=" + encodeURIComponent(value));
+        const data = await response.json();
+        loader.style.display = "none";
+        renderResults(data);
+      } catch (error) {
+        loader.textContent = "Error: Connection Failed";
+      }
+    }
+
+    function renderResults(data) {
+      if (!data.ok) {
+        resultsContainer.innerHTML = '<div class="card" style="border-color: var(--accent-error);"><div class="card-content" style="color: var(--accent-error)">' + data.errors.join(", ") + '</div></div>';
+        return;
+      }
+
+      const tenantId = data.aggregated.tenantId;
+      const domains = data.aggregated.domains || [];
+      const fallback = domains.find(d => d.endsWith(".onmicrosoft.com"));
+      const allDomains = domains; 
+
+      let html = "";
+
+      // 1. Tenant ID Card
+      if (tenantId) {
+        html += '<div class="card tenant-id" style="animation-delay: 0ms">' +
+                '<h3><span>Tenant ID</span> <span>:: UUID</span></h3>' +
+                '<div class="card-content">' + tenantId + '</div>' +
+                '</div>';
+      }
+
+      // 2. Fallback Domain Card
+      const fallbackContent = fallback ? fallback : '<span class="placeholder-text">(Cannot retrieve information)</span>';
+      
+      html += '<div class="card fallback" style="animation-delay: 100ms">' +
+              '<h3><span>Fallback Domain</span> <span>:: ONMICROSOFT</span></h3>' +
+              '<div class="card-content">' + fallbackContent + '</div>' +
+              '</div>';
+
+      // 3. All Connected Domains Card
+      if (allDomains.length > 0) {
+        const domainTags = allDomains.map(d => '<span class="domain-tag">' + d + '</span>').join("");
+        html += '<div class="card domains" style="animation-delay: 200ms">' +
+                '<h3><span>Connected Domains</span> <span>:: [' + allDomains.length + ']</span></h3>' +
+                '<div class="card-content domain-list">' +
+                domainTags +
+                '</div></div>';
+      } else {
+         html += '<div class="card domains" style="animation-delay: 200ms">' +
+                 '<h3><span>Connected Domains</span> <span>:: [0]</span></h3>' +
+                 '<div class="card-content placeholder-text">No domains found</div>' +
+                 '</div>';
+      }
+
+      resultsContainer.innerHTML = html;
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      runLookup();
+    });
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dcb90eb19bc3052',t:'MTc3MzU3ODIxMQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
