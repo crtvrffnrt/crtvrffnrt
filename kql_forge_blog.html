@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentinel KQL Forge: Natural Language to Hunting // PATRICK BINDER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.284.0/lucide.min.js"></script>
+    <style>
+        :root {
+            --bg: #0B0B0B;
+            --bg-panel: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #C7C7C7;
+            --accent: #00C8FF;
+            --border: #2A2A2A;
+            --highlight: #FFFFFF;
+            --btn-bg: #0099FF;
+            --btn-hover: #007ACC;
+            --max-width: 800px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 { font-weight: 800; letter-spacing: -0.02em; color: var(--highlight); margin-top: 2em; margin-bottom: 1rem; }
+        h1 { font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; margin-top: 0; }
+        
+        .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-secondary); }
+        
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(11, 11, 11, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 20px 0;
+        }
+
+        .nav-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand { font-weight: 900; font-size: 1.1rem; text-transform: uppercase; cursor: pointer; text-decoration: none; color: inherit; }
+
+        article {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
+
+        .post-meta { margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        
+        pre {
+            background: var(--bg-panel);
+            padding: 20px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
+
+        .screenshot-container {
+            margin: 40px 0;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .screenshot-placeholder {
+            width: 100%;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(45deg, #0B0B0B 25%, #1A1A1A 25%, #1A1A1A 50%, #0B0B0B 50%, #0B0B0B 75%, #1A1A1A 75%, #1A1A1A 100%);
+            background-size: 40px 40px;
+        }
+
+        .card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+
+        .section-tag { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 10px; display: block; }
+
+        footer {
+            padding: 100px 40px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-content">
+            <a href="index.html" class="nav-brand">PB // ARCHITECT</a>
+            <img src="logo.png" alt="Logo" style="height: 30px;">
+        </div>
+    </nav>
+
+    <article>
+        <div class="post-meta mono uppercase">
+            <span>Published: 2026.03.15</span>
+            <span>•</span>
+            <span>Subject: Sentinel KQL Forge</span>
+        </div>
+
+        <h1>Sentinel KQL Forge: Bridging Natural Language and Enterprise Hunting</h1>
+
+        <p>In the high-stakes world of Detection Engineering, speed is the only metric that matters during an active engagement. Today, I’m introducing <strong>Sentinel KQL Forge</strong>, a tactical synthesizer designed to convert natural language intent into production-ready Kusto queries.</p>
+
+        <h2>The Bottleneck: Syntax vs. Intent</h2>
+        <p>Security analysts often know exactly <em>what</em> they want to find—"Show me all mass-download events from SharePoint by users who just completed an MFA challenge"—but translating that into a multi-join KQL statement takes time. Sentinel KQL Forge removes that friction.</p>
+
+        <div class="screenshot-container">
+            <div class="screenshot-placeholder">SCR_01: SYNTHESIZER_INTERFACE_OVERVIEW</div>
+        </div>
+
+        <h2>Building the Forge</h2>
+        <p>The system utilizes a custom LLM adapter specifically trained on the Microsoft Sentinel schema and common adversarial patterns. It doesn't just complete syntax; it understands the <strong>security context</strong> of the request.</p>
+
+<pre><code># Example Input
+"Find all Entra ID sign-ins where the location is 'Germany' but the ISP is a known VPN provider."
+
+# Synthesized KQL
+SigninLogs
+| where Location == 'DE'
+| where NetworkServiceProvider in~ ('Mullvad', 'NordVPN', 'ProtonVPN')
+| project TimeGenerated, UserPrincipalName, IPAddress, Location</code></pre>
+
+        <div class="screenshot-container">
+            <div class="screenshot-placeholder">SCR_02: LIVE_SYNTHESIS_DEMO</div>
+        </div>
+
+        <h2>Core Features: Schema-Aware Intelligence</h2>
+        <p>Unlike generic AI tools, the Forge is aware of your specific environment's custom tables and data connectors. It automatically suggests filters based on the most active log sources.</p>
+
+        <div class="screenshot-container">
+            <div class="screenshot-placeholder">SCR_03: SCHEMA_MAPPING_ENGINE</div>
+        </div>
+
+        <h2>Real-World Impact: Reducing MTTR</h2>
+        <p>During a recent red team simulation, using the Forge allowed the Blue Team to pivot across four different log sources (Identity, Office 365, Endpoint, and Network) in under 3 minutes, identifying the lateral movement path before the attacker reached the Tier-0 assets.</p>
+
+        <div class="screenshot-container">
+            <div class="screenshot-placeholder">SCR_04: TIMELINE_ANALYSIS_REDUCTION</div>
+        </div>
+
+        <h2>Conclusion: Empowering the Human Analyst</h2>
+        <p>Sentinel KQL Forge isn’t about replacing the analyst; it’s about giving them a force multiplier. By lowering the barrier to complex hunting, we enable every tier of the SOC to perform high-fidelity forensic investigations.</p>
+
+        <p class="mono uppercase" style="margin-top: 50px;">// Protocol C-3P8 //</p>
+
+        <section style="margin-top: 80px; padding-top: 40px; border-top: 1px solid var(--border);">
+            <span class="section-tag">Resources // Tactical Links</span>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;">
+                <a href="sentinel-kql-forge/index.html" class="card">
+                    <span class="section-tag">Forge Node</span>
+                    <h3 style="margin: 10px 0;">Launch Synthesizer</h3>
+                    <p class="mono" style="font-size: 0.8rem;">Access the live KQL Forge node.</p>
+                </a>
+                <a href="index.html" class="card">
+                    <span class="section-tag">Return</span>
+                    <h3 style="margin: 10px 0;">Main Dashboard</h3>
+                    <p class="mono" style="font-size: 0.8rem;">Back to mission control.</p>
+                </a>
+            </div>
+        </section>
+    </article>
+
+    <footer>
+        <p class="mono uppercase">System Protocol C-3P8 // Designed for the Elite // 2026</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
