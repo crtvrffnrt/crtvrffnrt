@@ -6,7 +6,6 @@
     <title>PATRICK BINDER // DEFENSIVE ARCHITECT</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.284.0/lucide.min.js"></script>
-    <link rel="stylesheet" href="terminal.css">
     <style>
         :root {
             --bg: #000000;
@@ -97,21 +96,8 @@
         }
 
         .hero-meta { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
-        .hero-title { font-size: clamp(2.2rem, 6vw, 3.5rem); line-height: 1.1; margin-bottom: 30px; }
+        .hero-title { font-size: clamp(2.7rem, 7.2vw, 4.5rem); line-height: 1.1; margin-bottom: 30px; }
         .hero-description { font-size: 1.4rem; color: var(--text-secondary); max-width: 700px; font-weight: 400; }
-
-        /* Interactive Terminal (OhMyZsh style) */
-        .terminal-container {
-            max-width: 800px;
-            margin: 40px 0;
-            background: #0c0c0c;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #333;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            font-family: 'JetBrains Mono', monospace;
-            position: relative;
-        }
 
         /* Section Layout */
         section {
@@ -202,7 +188,10 @@
             <div class="nav-brand" onclick="window.scrollTo(0,0)">PB | SOC Analyst | Incident Responder | Pentester</div>
             <div class="nav-links">
                 <a href="#intel" class="nav-link">Intelligence</a>
-                <a href="#bloodhound-ir" class="nav-link">Tools</a>
+                <a href="#domain-intel" class="nav-link">Recon</a>
+                <a href="#claw-terminal" class="nav-link">Claw</a>
+                <a href="#kali-terminal" class="nav-link">Terminal</a>
+                <a href="#neon-easm" class="nav-link">EASM</a>
                 <a href="#dossier" class="nav-link">About</a>
                 <a href="https://github.com/crtvrffnrt" class="nav-link">GitHub</a>
             </div>
@@ -228,35 +217,16 @@
             </div>
             <p class="hero-description">Focused on Microsoft Cloud pentesting and offensive security with a strong emphasis on real-world attack paths across Entra ID, Azure, and the MS Online Services. I build autonomous systems and adversarial tools to secure the perimeter of modern identity infrastructure.</p>
             
-            <!-- Interactive Terminal (Kali Linux Bash Style) -->
-            <div class="terminal-container" id="terminal-container">
-                <div class="terminal-header">
-                    <div style="display: flex; gap: 8px;">
-                        <div class="term-dot red" style="width: 12px; height: 12px; border-radius: 50%; background: #ff5f56;"></div>
-                        <div class="term-dot yellow" style="width: 12px; height: 12px; border-radius: 50%; background: #ffbd2e;"></div>
-                        <div class="term-dot green" style="width: 12px; height: 12px; border-radius: 50%; background: #27c93f;"></div>
-                    </div>
-                    <div style="color: #ccc; font-size: 0.75rem;">root@kali: ~/ops</div>
-                </div>
-                <div class="terminal-body">
-                    <div id="term-output">
-                        <div class="term-output" style="margin-bottom:15px; color:#888;">Linux kali 6.6.9-amd64 #1 SMP PREEMPT_DYNAMIC Kali 6.6.9-1kali1 (2024-01-08) x86_64<br>Last login: Sun Mar 15 14:20:01 on ttys001<br>Type <span style="color:#8be9fd">'help'</span> for available directives.</div>
-                    </div>
-                    <div class="prompt-kali-wrapper">
-                        <div class="prompt-kali-top">┌──(<span style="color:#ff5555">root㉿kali</span>)-[<span style="color:#fff">~/ops</span>]</div>
-                        <div class="prompt-kali-bottom">
-                            <span class="prompt-symbol-kali">└─$</span>
-                            <input type="text" class="term-input" id="term-input" autofocus spellcheck="false" style="margin-left:10px">
-                        </div>
-                    </div>
-                </div>
+            <!-- Kali Terminal Component -->
+            <div style="width: 100%; height: 300px; margin-top: 30px; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                <iframe src="kali_terminal.html" style="width: 100%; height: 100%; border: none;" title="Kali Operational Terminal"></iframe>
             </div>
-
+            
             <div style="margin-top: 50px; display: flex; gap: 20px; flex-wrap: wrap;">
-                <a href="#bloodhound-ir" class="btn-primary">
-                    <i data-lucide="shield" size="18"></i> IDENTITY_MAPPING
+                <a href="#neon-easm" class="btn-primary">
+                    <i data-lucide="shield" size="18"></i> INITIALIZE_EASM_MODULE
                 </a>
-                <a href="#ip-intel" class="btn-primary" style="background: transparent !important; border: 1px solid var(--border) !important;">
+                <a href="https://www.ipscan.info" target="_blank" class="btn-primary" style="background: transparent !important; border: 1px solid var(--border) !important;">
                     <i data-lucide="crosshair" size="18"></i> RECON_MODULE
                 </a>
                 <a href="#intel" class="btn-primary" style="background: transparent !important; border: 1px solid var(--border) !important;">
@@ -271,6 +241,42 @@
                 <h2 class="section-title">Technical Intel & Research</h2>
             </div>
             <div class="grid">
+                <a href="apimspray_execution_footprint.html" class="card">
+                    <span class="card-category">Offensive Visuals</span>
+                    <h3 class="card-title">APIMSpray in Action: The Forensic Footprint</h3>
+                    <p class="card-desc">Analyzing sign-in logs and defender views during a real-world APIM-based password spray.</p>
+                    <div class="card-footer">
+                        <span>Read Post</span>
+                        <i data-lucide="arrow-right" size="16"></i>
+                    </div>
+                </a>
+                <a href="entra_stealth_persistence.html" class="card">
+                    <span class="card-category">Post-Compromise</span>
+                    <h3 class="card-title">Entra ID: Stealth Persistence via Managed Identities</h3>
+                    <p class="card-desc">Leveraging credential-less identities for long-term, undetected access in Azure tenants.</p>
+                    <div class="card-footer">
+                        <span>Read Post</span>
+                        <i data-lucide="arrow-right" size="16"></i>
+                    </div>
+                </a>
+                <a href="entra_device_code_phishing.html" class="card">
+                    <span class="card-category">Offensive Identity</span>
+                    <h3 class="card-title">Entra ID: Device Code Phishing & MFA Bypass</h3>
+                    <p class="card-desc">Weaponizing the Device Code Flow to bypass modern Conditional Access and hijack user sessions.</p>
+                    <div class="card-footer">
+                        <span>Read Post</span>
+                        <i data-lucide="arrow-right" size="16"></i>
+                    </div>
+                </a>
+                <a href="ivanti_exploit_detection.html" class="card">
+                    <span class="card-category">Detection Engineering</span>
+                    <h3 class="card-title">Ivanti Connect Secure: Hunt & Detect</h3>
+                    <p class="card-desc">Translating Ivanti edge-gateway exploits into actionable KQL hunting queries for Microsoft Sentinel.</p>
+                    <div class="card-footer">
+                        <span>Read Post</span>
+                        <i data-lucide="arrow-right" size="16"></i>
+                    </div>
+                </a>
                 <a href="bloodhound_app.html" class="card">
                     <span class="card-category">Security Engineering</span>
                     <h3 class="card-title">How-To: Building a BloodHound IR App</h3>
@@ -328,30 +334,17 @@
             </div>
         </section>
 
-        <!-- Tool Order: 1. BloodHound, 2. IP Scan, 3. Domain Intel, 4. Trade, 5. EASM -->
-        
-        <section id="bloodhound-ir">
+        <section id="domain-intel">
             <div class="section-header">
-                <span class="section-tag">Node // Identity Mapping</span>
-                <h2 class="section-title">BloodHound IR Workspace</h2>
-                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">Modular, operator-centric visualizer for mapping Entra ID relationships and compromise blast radius. Designed for rapid triage during True-Positive identity incidents.</p>
+                <span class="section-tag">Worker // Live Recon</span>
+                <h2 class="section-title">Domain Intelligence</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">A specialized Cloudflare Worker designed for rapid reconnaissance of Microsoft 365 tenants. It extracts public metadata, identifies associated domains, and maps tenant IDs from a single entry point.</p>
                 <div style="margin-top: 15px;">
-                    <a href="bloodhound_app.html" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_HOW_TO_GUIDE ]</a>
+                    <a href="https://domain.ipscan.info/" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
                 </div>
             </div>
-            <div class="widget-area" style="border: 1px solid var(--border); border-radius: 8px; padding: 0; overflow: hidden; height: 600px; position: relative; background: #000 !important;">
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden;">
-                    <!-- Embedded BloodHound Canvas -->
-                    <iframe src="http://default.germanywestcentral.cloudapp.azure.com/" style="width: 100%; height: 100%; border: none; filter: contrast(1.1) brightness(0.9) saturate(1.2);" title="BloodHound IR Canvas"></iframe>
-                </div>
-                <div style="position: absolute; bottom: 20px; left: 20px; z-index: 10;">
-                    <a href="http://default.germanywestcentral.cloudapp.azure.com/" target="_blank" class="btn-primary" style="box-shadow: 0 0 20px rgba(0, 153, 255, 0.4);">
-                        <i data-lucide="external-link" size="18"></i> LAUNCH_FULL_APPLICATION
-                    </a>
-                </div>
-                <div style="position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.6); padding: 5px 10px; border-radius: 4px; border: 1px solid var(--border); z-index: 10;">
-                    <span class="mono" style="font-size: 0.7rem; color: var(--accent);">LIVE_APPLICATION_STREAM</span>
-                </div>
+            <div style="width: 100%; height: 600px; background: var(--bg-panel); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px;">
+                <iframe src="https://domain.ipscan.info/" style="width: 100%; height: 100%; border: none;" title="Domain Intelligence Lookup"></iframe>
             </div>
         </section>
 
@@ -369,31 +362,29 @@
             </div>
         </section>
 
-        <section id="domain-intel">
-            <div class="section-header">
-                <span class="section-tag">Worker // Live Recon</span>
-                <h2 class="section-title">Domain Intelligence</h2>
-                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">A specialized Cloudflare Worker designed for rapid reconnaissance of Microsoft 365 tenants. It extracts public metadata, identifies associated domains, and maps tenant IDs from a single entry point.</p>
-                <div style="margin-top: 15px;">
-                    <a href="https://domain.ipscan.info/" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
-                </div>
-            </div>
-            <div style="width: 100%; height: 600px; background: var(--bg-panel); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px;">
-                <iframe src="https://domain.ipscan.info/" style="width: 100%; height: 100%; border: none;" title="Domain Intelligence Lookup"></iframe>
-            </div>
-        </section>
-
         <section id="claw-terminal">
             <div class="section-header">
                 <span class="section-tag">Node // Automated Ops</span>
-                <h2 class="section-title">C-3PO Claw Terminal (Neon Command)</h2>
-                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">Unified dashboard for OSINT synthesis, simulation environments, and automated cloud assessments. Integrates directly with Azure REST APIs to automate the collection of offensive signals.</p>
+                <h2 class="section-title">C-3PO Claw Terminal</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">Autonomous operation interface for orchestrating large-scale cloud assessments. Integrates directly with Azure REST APIs to automate the collection of offensive signals across the Entra ID surface.</p>
                 <div style="margin-top: 15px;">
                     <a href="https://stc3ooclawrpfyx.z6.web.core.windows.net/" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
                 </div>
             </div>
-            <div style="width: 100%; height: 600px; background: var(--bg-panel); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px;">
-                <iframe src="https://stc3ooclawrpfyx.z6.web.core.windows.net/" style="width: 100%; height: 100%; border: none;" title="Claw Terminal Live"></iframe>
+            <div style="width: 100%; height: 600px; background: var(--bg-panel); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px; position: relative;">
+                <!-- Zoomed out iframe using scale -->
+                <iframe src="https://stc3ooclawrpfyx.z6.web.core.windows.net/" style="width: 133.33%; height: 133.33%; border: none; transform: scale(0.75); transform-origin: 0 0;" title="Claw Terminal Live"></iframe>
+            </div>
+        </section>
+
+        <section id="kali-terminal">
+            <div class="section-header">
+                <span class="section-tag">Node // Kali Terminal</span>
+                <h2 class="section-title">Security Override Gate</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">Standard Kali-styled interface for proof-of-knowledge challenges and tool initialization.</p>
+            </div>
+            <div style="width: 100%; height: 500px; background: #05080f; border: 1px solid var(--border); border-radius: 8px; overflow: hidden;">
+                <iframe src="terminal.html" style="width: 100%; height: 100%; border: none;" title="Kali Security Gate"></iframe>
             </div>
         </section>
 
@@ -411,6 +402,31 @@
             </div>
         </section>
 
+        <section id="bloodhound-ir">
+            <div class="section-header">
+                <span class="section-tag">Node // Identity Mapping</span>
+                <h2 class="section-title">BloodHound IR Workspace</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">Modular, operator-centric visualizer for mapping Entra ID relationships and compromise blast radius. Designed for rapid triage during True-Positive identity incidents.</p>
+                <div style="margin-top: 15px;">
+                    <a href="bloodhound_app.html" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_HOW_TO_GUIDE ]</a>
+                </div>
+            </div>
+            <div class="widget-area" style="border: 1px solid var(--border); border-radius: 8px; padding: 0; overflow: hidden; height: 600px; position: relative; background: #000 !important;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden;">
+                    <!-- Embedded BloodHound Canvas -->
+                    <iframe src="http://20.52.37.191/" style="width: 100%; height: 100%; border: none; filter: contrast(1.1) brightness(0.9) saturate(1.2);" title="BloodHound IR Canvas"></iframe>
+                </div>
+                <div style="position: absolute; bottom: 20px; left: 20px; z-index: 10;">
+                    <a href="http://20.52.37.191/" target="_blank" class="btn-primary" style="box-shadow: 0 0 20px rgba(0, 153, 255, 0.4);">
+                        <i data-lucide="external-link" size="18"></i> LAUNCH_FULL_APPLICATION
+                    </a>
+                </div>
+                <div style="position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.6); padding: 5px 10px; border-radius: 4px; border: 1px solid var(--border); z-index: 10;">
+                    <span class="mono" style="font-size: 0.7rem; color: var(--accent);">LIVE_APPLICATION_STREAM</span>
+                </div>
+            </div>
+        </section>
+
         <section id="dossier">
             <div class="section-header">
                 <span class="section-tag">Human // Dossier</span>
@@ -418,19 +434,23 @@
             </div>
             <div class="dossier-grid">
                 <div class="expertise">
-                    <p style="margin-bottom: 30px; color: var(--text-secondary);">Security Architect and offensive specialist with deep expertise in Microsoft cloud identity systems. I bridge the gap between architectural hardening and adversarial exploitation.</p>
+                    <p style="margin-bottom: 30px; color: var(--text-secondary);">Security Architect and offensive specialist with deep expertise in Microsoft cloud identity systems. I bridge the gap between architectural hardening and adversarial exploitation, ensuring that cloud-native environments are resilient against modern credential-based attack vectors.</p>
                     <div class="skill-item">
-                        <div class="skill-label"><span>Entra ID Pentesting</span><span>95%</span></div>
+                        <div class="skill-label"><span>Entra ID / Azure AD Pentesting</span><span>95%</span></div>
                         <div class="skill-track"><div class="skill-fill" style="width: 95%"></div></div>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-label"><span>KQL / Detection Engineering</span><span>98%</span></div>
+                        <div class="skill-label"><span>Detection Engineering & KQL</span><span>98%</span></div>
                         <div class="skill-track"><div class="skill-fill" style="width: 98%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label"><span>Adversarial Emulation</span><span>90%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="width: 90%"></div></div>
                     </div>
                 </div>
                 <div class="mission-history mono">
-                    <p style="margin-bottom:20px;"><strong>[CORE_FOCUS]</strong><br>Identifying attack paths across Entra ID to drive security maturity.</p>
-                    <p><strong>[OPERATIONS]</strong><br>Architecting distributed offensive tools and autonomous forensic nodes.</p>
+                    <p style="margin-bottom:20px;"><strong>[CORE_FOCUS]</strong><br>Identifying and weaponizing real-world attack paths across Entra ID and MS Online Services to drive security maturity.</p>
+                    <p><strong>[OPERATIONS]</strong><br>Architecting distributed offensive tools (e.g., apimspray) and autonomous forensic nodes utilizing Gemini CLI and Azure REST APIs.</p>
                 </div>
             </div>
         </section>
@@ -444,7 +464,6 @@
         </div>
     </footer>
 
-    <script src="terminal.js"></script>
     <script>
         lucide.createIcons();
     </script>
