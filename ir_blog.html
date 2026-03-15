@@ -166,13 +166,41 @@
 
         <p>In my previous post, we explored how attackers use Azure APIM for stealthy password spraying. Today, we’re switching sides. We’re going from hunter to responder, using the <strong>Gemini CLI</strong> to navigate Entra ID and dissect a Business Email Compromise (BEC) in record time.</p>
 
+        <h2>Setting Up the Command Center: Gemini CLI on Kali Linux</h2>
+        <p>For offensive and defensive operations, stability and speed are paramount. Setting up Gemini CLI on a Kali Linux node is straightforward via <code>npm</code>. Ensure you have Node.js 18+ installed before proceeding.</p>
+
+<pre><code># Update system and install Node.js
+sudo apt update && sudo apt install -y nodejs npm
+
+# Install Gemini CLI globally
+sudo npm install -g @google/gemini-cli
+
+# Initialize and Authenticate
+gemini login</code></pre>
+
+        <div class="screenshot-container">
+            <div class="screenshot-placeholder">SCR_00: GEMINI_CLI_INSTALLATION_SUCCESS</div>
+        </div>
+
+        <h2>The Tactical Toolbox: Essential Entra ID Auditing</h2>
+        <p>Before diving into the specific IR case, every architect needs a baseline of the tenant's surface. These commands provide immediate visibility into privileged roles and potential weak points.</p>
+
+<pre><code># Audit all directory role assignments
+az role assignment list --all --query "[?targetObjectType=='User']"
+
+# Identify Guest users with potential access
+az ad user list --filter "userType eq 'Guest'" --query "[].{Name:displayName, UPN:userPrincipalName}"
+
+# Search for Service Principals with insecure secrets
+az ad sp list --all --query "[?passwordCredentials!=null].{Name:displayName, AppId:appId}"</code></pre>
+
+        <div class="screenshot-container">
+            <div class="screenshot-placeholder">SCR_01: TENANT_SURFACE_AUDIT_OUTPUT</div>
+        </div>
+
         <h2>The Scenario: BEC Phishing & A Compromised Node</h2>
         <p>One week ago, a high-value account was compromised. The initial report suggested a "suspicious login," but the trail went cold. We need to find the <strong>initial access vector</strong>—the specific malicious email that started it all.</p>
         <p>Instead of clicking through the Entra Portal, we’re going autonomous.</p>
-
-        <div class="screenshot-container">
-            <div class="screenshot-placeholder">SCR_01: INITIAL_DETECTION_DASHBOARD</div>
-        </div>
 
         <h2>Phase 1: The Autonomous Setup (GEMINI.md)</h2>
         <p>To enable Gemini for high-fidelity Incident Response, we define its operating logic in a local <code>GEMINI.md</code>. This ensures every command is scoped for forensics.</p>
@@ -182,17 +210,14 @@
 - Correlate Sign-in Logs with Mailbox Audit Logs via KQL.
 - Output findings in structured JSON for downstream automation.</code></pre>
 
-        <div class="screenshot-container">
-            <div class="screenshot-placeholder">SCR_02: CONFIGURING_GEMINI_MD</div>
-        </div>
-
         <h2>Phase 2: Querying the Entra ID Surface</h2>
         <p>We start by identifying the user's footprint. We use Gemini to execute a raw Graph API query to find the user's ID and recent sign-ins.</p>
 
         <p><strong>The Gemini Command:</strong><br>
         <em class="mono">"Gemini, find the User Principal Name for the fictitious account 'finctice' and list sign-ins from 7 days ago."</em></p>
 
-<pre><code># Behind the Scenes (az rest)
+<pre><code># Using Graph API via az rest
+az rest --method get --url "https://graph.microsoft.com/v1.0/identity/conditionalAccess/policies"
 az rest --method get --url "https://graph.microsoft.com/v1.0/users?$filter=startsWith(displayName,'finctice')"</code></pre>
 
         <div class="screenshot-container">
@@ -200,9 +225,9 @@ az rest --method get --url "https://graph.microsoft.com/v1.0/users?$filter=start
         </div>
 
         <h2>Phase 3: Hunting the Initial Access with KQL</h2>
-        <p>We know the account was compromised on March 8th. We need to see what hit the mailbox just before the first suspicious login. We leverage the <code>azure-kusto</code> skill to query the <code>EmailEvents</code> table.</p>
+        <p>We leverage the <code>azure-kusto</code> skill to pivot from identity logs to email events. We need to see what hit the mailbox just before the first suspicious login.</p>
 
-<pre><code># The Hunt Query
+<pre><code># The Hunt Query (KQL)
 EmailEvents
 | where RecipientEmailAddress contains "finctice"
 | where Timestamp between (datetime(2026-03-08) .. datetime(2026-03-09))
@@ -211,20 +236,7 @@ EmailEvents
 | order by Timestamp desc</code></pre>
 
         <div class="screenshot-container">
-            <div class="screenshot-placeholder">SCR_04: KQL_FORENSIC_QUERY</div>
-        </div>
-
-        <h2>Phase 4: Extracting the Malicious Payload</h2>
-        <p>Now for the surgical strike. We use the <code>NetworkMessageId</code> to pull the raw headers and confirm the phishing link.</p>
-
-        <p><strong>Gemini Instruction:</strong><br>
-        <em class="mono">"Get the raw mail properties for message 550e8400... and identify the target URL."</em></p>
-
-        <p><strong>The Result:</strong><br>
-        Gemini identifies a hidden redirect to a credential harvester: <code>https://entra-login-verify.info/</code>.</p>
-
-        <div class="screenshot-container">
-            <div class="screenshot-placeholder">SCR_05: PAYLOAD_EXTRACTION_SUCCESS</div>
+            <div class="screenshot-placeholder">SCR_04: KQL_FORENSIC_QUERY_RESULTS</div>
         </div>
 
         <h2>Conclusion: The Speed of Autonomous IR</h2>
@@ -232,12 +244,12 @@ EmailEvents
 
         <p><strong>Key Takeaways:</strong></p>
         <ul>
-            <li><strong>Direct API Access:</strong> <code>az rest</code> is faster and more flexible than any UI.</li>
-            <li><strong>Context is King:</strong> A well-defined <code>GEMINI.md</code> keeps the AI focused on forensic artifacts.</li>
-            <li><strong>KQL Integration:</strong> Seamlessly pivoting from identity logs to email events is the only way to win BEC investigations.</li>
+            <li><strong>Direct API Access:</strong> <code>az rest</code> is faster and more flexible than any UI. Refer to the <a href="https://learn.microsoft.com/en-us/graph/api/overview" target="_blank">Microsoft Graph API Docs</a> for endpoint details.</li>
+            <li><strong>Context is King:</strong> A well-defined <code>GEMINI.md</code> keeps the AI focused.</li>
+            <li><strong>KQL Integration:</strong> Essential for Winning BEC investigations. Check the <a href="https://learn.microsoft.com/en-us/cli/azure/ad" target="_blank">Azure CLI AD Reference</a> for more commands.</li>
         </ul>
 
-        <p>Stay tuned for the next drop, where we'll automate the remediation of this compromise across the entire tenant.</p>
+        <p>Stay tuned for the next drop, where we'll automate remediation using the <a href="https://github.com/google/gemini-cli" target="_blank">Gemini CLI</a>.</p>
 
         <p class="mono uppercase" style="margin-top: 50px;">// Protocol C-3P8 //</p>
 
