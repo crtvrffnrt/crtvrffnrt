@@ -1,0 +1,26 @@
+name: Update Content
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch latest HTML
+        run: |
+          curl -s https://patrickbrand34846.z6.web.core.windows.net/index.html -o index.html
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          if git diff --staged --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Update content from Azure source"
+            git push
+          fi
