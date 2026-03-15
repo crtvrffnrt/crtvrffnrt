@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous IR with Gemini CLI // PATRICK BINDER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.284.0/lucide.min.js"></script>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --text-primary: #f0f0f0;
+            --text-secondary: #a0a0a0;
+            --accent: #f0f0f0;
+            --border: #222;
+            --highlight: #ffffff;
+            --neon-blue: #0070f3;
+            --max-width: 800px; /* Thinner for blog reading */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 { font-weight: 800; letter-spacing: -0.02em; color: var(--highlight); margin-top: 2em; margin-bottom: 1rem; }
+        h1 { font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; margin-top: 0; }
+        
+        .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-secondary); }
+        
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 20px 0;
+        }
+
+        .nav-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand { font-weight: 900; font-size: 1.1rem; text-transform: uppercase; cursor: pointer; text-decoration: none; color: inherit; }
+
+        article {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
+
+        .post-meta { margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        
+        pre {
+            background: #111;
+            padding: 20px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
+
+        .screenshot-container {
+            margin: 40px 0;
+            background: #111;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .screenshot-placeholder {
+            width: 100%;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(45deg, #0a0a0a 25%, #111 25%, #111 50%, #0a0a0a 50%, #0a0a0a 75%, #111 75%, #111 100%);
+            background-size: 40px 40px;
+        }
+
+        .recon-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-top: 80px;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 20px 100px;
+        }
+
+        .recon-section {
+            background: #0a0a0a;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 30px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 4px;
+            margin-top: 20px;
+            background: #000;
+        }
+
+        .section-tag { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.1em; margin-bottom: 10px; display: block; }
+
+        footer {
+            padding: 100px 40px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-content">
+            <a href="index.html" class="nav-brand">PB // ARCHITECT</a>
+            <div class="mono uppercase">Intelligence Report // BEC_IR_0315</div>
+        </div>
+    </nav>
+
+    <article>
+        <div class="post-meta mono uppercase">
+            <span>Published: 2026.03.15</span>
+            <span>•</span>
+            <span>Subject: Autonomous Incident Response</span>
+        </div>
+
+        <h1>Beyond the Portal: Navigating Entra ID with Gemini CLI & Autonomous IR</h1>
+
+        <p>In my previous post, we explored how attackers use Azure APIM for stealthy password spraying. Today, we’re switching sides. We’re going from hunter to responder, using the <strong>Gemini CLI</strong> to navigate Entra ID and dissect a Business Email Compromise (BEC) in record time.</p>
+
+        <h2>The Scenario: BEC Phishing & A Compromised Node</h2>
+        <p>One week ago, a high-value account was compromised. The initial report suggested a "suspicious login," but the trail went cold. We need to find the <strong>initial access vector</strong>—the specific malicious email that started it all.</p>
+        <p>Instead of clicking through the Entra Portal, we’re going autonomous.</p>
+
+        <div class="screenshot-container">
+            <div class="screenshot-placeholder">SCR_01: INITIAL_DETECTION_DASHBOARD</div>
+        </div>
+
+        <h2>Phase 1: The Autonomous Setup (GEMINI.md)</h2>
+        <p>To enable Gemini for high-fidelity Incident Response, we define its operating logic in a local <code>GEMINI.md</code>. This ensures every command is scoped for forensics.</p>
+
+<pre><code># GEMINI-IR Configuration
+- Always prioritize `az rest` for Graph API interrogation.
+- Correlate Sign-in Logs with Mailbox Audit Logs via KQL.
+- Output findings in structured JSON for downstream automation.</code></pre>
+
+        <div class="screenshot-container">
+            <div class="screenshot-placeholder">SCR_02: CONFIGURING_GEMINI_MD</div>
+        </div>
+
+        <h2>Phase 2: Querying the Entra ID Surface</h2>
+        <p>We start by identifying the user's footprint. We use Gemini to execute a raw Graph API query to find the user's ID and recent sign-ins.</p>
+
+        <p><strong>The Gemini Command:</strong><br>
+        <em class="mono">"Gemini, find the User Principal Name for the fictitious account 'finctice' and list sign-ins from 7 days ago."</em></p>
+
+<pre><code># Behind the Scenes (az rest)
+az rest --method get --url "https://graph.microsoft.com/v1.0/users?$filter=startsWith(displayName,'finctice')"</code></pre>
+
+        <div class="screenshot-container">
+            <div class="screenshot-placeholder">SCR_03: GRAPH_API_INTERROGATION</div>
+        </div>
+
+        <h2>Phase 3: Hunting the Initial Access with KQL</h2>
+        <p>We know the account was compromised on March 8th. We need to see what hit the mailbox just before the first suspicious login. We leverage the <code>azure-kusto</code> skill to query the <code>EmailEvents</code> table.</p>
+
+<pre><code># The Hunt Query
+EmailEvents
+| where RecipientEmailAddress contains "finctice"
+| where Timestamp between (datetime(2026-03-08) .. datetime(2026-03-09))
+| where DeliveryAction == "Delivered"
+| project Timestamp, SenderMailFromAddress, Subject, NetworkMessageId
+| order by Timestamp desc</code></pre>
+
+        <div class="screenshot-container">
+            <div class="screenshot-placeholder">SCR_04: KQL_FORENSIC_QUERY</div>
+        </div>
+
+        <h2>Phase 4: Extracting the Malicious Payload</h2>
+        <p>Now for the surgical strike. We use the <code>NetworkMessageId</code> to pull the raw headers and confirm the phishing link.</p>
+
+        <p><strong>Gemini Instruction:</strong><br>
+        <em class="mono">"Get the raw mail properties for message 550e8400... and identify the target URL."</em></p>
+
+        <p><strong>The Result:</strong><br>
+        Gemini identifies a hidden redirect to a credential harvester: <code>https://entra-login-verify.info/</code>.</p>
+
+        <div class="screenshot-container">
+            <div class="screenshot-placeholder">SCR_05: PAYLOAD_EXTRACTION_SUCCESS</div>
+        </div>
+
+        <h2>Conclusion: The Speed of Autonomous IR</h2>
+        <p>By staying inside the CLI and utilizing Gemini’s ability to chain <code>az rest</code> with KQL, we reduced a 2-hour portal hunt to <strong>90 seconds of autonomous execution</strong>.</p>
+
+        <p><strong>Key Takeaways:</strong></p>
+        <ul>
+            <li><strong>Direct API Access:</strong> <code>az rest</code> is faster and more flexible than any UI.</li>
+            <li><strong>Context is King:</strong> A well-defined <code>GEMINI.md</code> keeps the AI focused on forensic artifacts.</li>
+            <li><strong>KQL Integration:</strong> Seamlessly pivoting from identity logs to email events is the only way to win BEC investigations.</li>
+        </ul>
+
+        <p>Stay tuned for the next drop, where we'll automate the remediation of this compromise across the entire tenant.</p>
+
+        <p class="mono uppercase" style="margin-top: 50px;">// Protocol C-3P8 //</p>
+    </article>
+
+    <div class="recon-grid">
+        <section class="recon-section">
+            <span class="section-tag">Worker // Live Recon</span>
+            <h2 style="margin-top:0">Domain Intelligence</h2>
+            <p class="mono">Live intelligence lookup powered by domain.ipscan.info</p>
+            <iframe src="https://domain.ipscan.info/" title="Domain Intel"></iframe>
+        </section>
+
+        <section class="recon-section">
+            <span class="section-tag">Worker // Network Recon</span>
+            <h2 style="margin-top:0">IP Intelligence</h2>
+            <p class="mono">Global IP analysis node at ipscan.info</p>
+            <iframe src="https://ipscan.info/" title="IP Intel"></iframe>
+        </section>
+    </div>
+
+    <footer>
+        <p class="mono uppercase">System Protocol C-3P8 // Designed for the Elite // 2026</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
