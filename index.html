@@ -234,6 +234,15 @@
                 <h2 class="section-title">Technical Intel & Research</h2>
             </div>
             <div class="grid">
+                <a href="bloodhound_app.html" class="card">
+                    <span class="card-category">Security Engineering</span>
+                    <h3 class="card-title">How-To: Building a BloodHound IR App</h3>
+                    <p class="card-desc">Building a modular, operator-centric visualizer for Microsoft Entra environments to map compromise and blast radius.</p>
+                    <div class="card-footer">
+                        <span>Read Post</span>
+                        <i data-lucide="arrow-right" size="16"></i>
+                    </div>
+                </a>
                 <a href="kql_forge_blog.html" class="card">
                     <span class="card-category">Detection Engineering</span>
                     <h3 class="card-title">Sentinel KQL Forge: Natural Language to Hunting</h3>
@@ -326,6 +335,40 @@
             </div>
             <div style="width: 100%; height: 600px; background: var(--bg-panel); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px;">
                 <iframe src="https://stc3ooclawrpfyx.z6.web.core.windows.net/easm.html" style="width: 100%; height: 100%; border: none;" title="NEON-EASM Live"></iframe>
+            </div>
+        </section>
+
+        <section id="bloodhound-ir">
+            <div class="section-header">
+                <span class="section-tag">Node // Identity Mapping</span>
+                <h2 class="section-title">BloodHound IR Workspace</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">Modular, operator-centric visualizer for mapping Entra ID relationships and compromise blast radius. Designed for rapid triage during True-Positive identity incidents.</p>
+                <div style="margin-top: 15px;">
+                    <a href="bloodhound_app.html" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_HOW_TO_GUIDE ]</a>
+                </div>
+            </div>
+            <div class="widget-area" style="border: 1px solid var(--border); border-radius: 8px; display: flex; flex-direction: column; gap: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="mono" style="color: var(--accent);">STATUS: NODE_READY</div>
+                    <div class="mono" style="font-size: 0.7rem;">BUILD_V1.0.4</div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                    <div style="padding: 15px; border: 1px solid var(--border); border-radius: 4px; background: rgba(0, 200, 255, 0.05);">
+                        <div class="mono" style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 5px;">CAPABILITY</div>
+                        <div style="font-weight: 600; font-size: 0.9rem;">Blast Radius Analysis</div>
+                    </div>
+                    <div style="padding: 15px; border: 1px solid var(--border); border-radius: 4px; background: rgba(0, 200, 255, 0.05);">
+                        <div class="mono" style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 5px;">CAPABILITY</div>
+                        <div style="font-weight: 600; font-size: 0.9rem;">Admin Path Mapping</div>
+                    </div>
+                    <div style="padding: 15px; border: 1px solid var(--border); border-radius: 4px; background: rgba(0, 200, 255, 0.05);">
+                        <div class="mono" style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 5px;">CAPABILITY</div>
+                        <div style="font-weight: 600; font-size: 0.9rem;">Triage Summary Gen</div>
+                    </div>
+                </div>
+                <a href="bloodhound_app.html" class="btn-primary" style="align-self: flex-start; margin-top: 10px;">
+                    <i data-lucide="layout" size="18"></i> OPEN_BLOODHOUND_WORKBOOK
+                </a>
             </div>
         </section>
 
