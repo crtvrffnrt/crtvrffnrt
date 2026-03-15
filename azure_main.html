@@ -8,12 +8,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.284.0/lucide.min.js"></script>
     <style>
         :root {
-            --bg: #0B0B0B;
-            --bg-panel: #1A1A1A;
+            --bg: #000000;
+            --bg-panel: #0A0A0A;
             --text-primary: #FFFFFF;
             --text-secondary: #C7C7C7;
             --accent: #00C8FF;
-            --border: #2A2A2A;
+            --border: #1A1A1A;
             --highlight: #FFFFFF;
             --btn-bg: #0099FF;
             --btn-hover: #007ACC;
@@ -31,7 +31,7 @@
         }
 
         /* Tactical Widgets and sections use Secondary Background */
-        .widget-area, .card, section#domain-intel > div, section#ip-intel > div, section#claw-terminal > div {
+        .widget-area, .card, section div iframe {
             background-color: var(--bg-panel) !important;
         }
 
@@ -60,7 +60,8 @@
         nav {
             position: sticky;
             top: 0;
-            background: var(--bg);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border);
             z-index: 1000;
             padding: 20px 0;
@@ -95,7 +96,7 @@
         }
 
         .hero-meta { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
-        .hero-title { font-size: clamp(3rem, 8vw, 5rem); line-height: 1.05; margin-bottom: 30px; }
+        .hero-title { font-size: clamp(2.7rem, 7.2vw, 4.5rem); line-height: 1.1; margin-bottom: 30px; }
         .hero-description { font-size: 1.4rem; color: var(--text-secondary); max-width: 700px; font-weight: 400; }
 
         /* Section Layout */
@@ -122,12 +123,14 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid var(--border);
-            transition: transform 0.2s;
+            padding: 30px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: transform 0.2s, border-color 0.2s;
         }
 
-        .card:hover { transform: translateY(-5px); }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
 
         .card-category { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); }
         .card-title { font-size: 1.4rem; line-height: 1.3; }
@@ -136,12 +139,11 @@
 
         /* Tactical Widgets */
         .widget-area {
-            background: #f9f9f9;
+            background: var(--bg-panel);
             border-radius: 4px;
             padding: 40px;
             margin-top: 40px;
         }
-        [data-theme='dark'] .widget-area { background: #111; }
 
         /* Dossier - Expertise Scan */
         .dossier-grid {
@@ -153,15 +155,15 @@
         .skill-item { margin-bottom: 25px; }
         .skill-label { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; }
         .skill-track { height: 2px; background: var(--border); position: relative; }
-        .skill-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--highlight); }
+        .skill-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); }
 
         /* Interactive Elements */
         .btn-primary {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: var(--highlight);
-            color: var(--bg);
+            background: var(--btn-bg);
+            color: #FFFFFF;
             padding: 12px 25px;
             border-radius: 100px;
             text-decoration: none;
@@ -179,11 +181,11 @@
         }
     </style>
 </head>
-<body data-theme="dark">
+<body>
 
     <nav>
         <div class="nav-content">
-            <div class="nav-brand" onclick="window.scrollTo(0,0)">PB // ARCHITECT</div>
+            <div class="nav-brand" onclick="window.scrollTo(0,0)">PB | SOC Analyst | Incident Responder | Pentester</div>
             <div class="nav-links">
                 <a href="#intel" class="nav-link">Intelligence</a>
                 <a href="#lab" class="nav-link">Laboratory</a>
@@ -203,7 +205,7 @@
                 <span>2026.03.15</span>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; gap: 60px; margin-bottom: 40px;">
-                <h1 class="hero-title" style="margin-bottom: 0; flex: 1; font-size: clamp(2.7rem, 7.2vw, 4.5rem); line-height: 1.1;">
+                <h1 class="hero-title" style="margin-bottom: 0; flex: 1;">
                     Offensive & Defensive Cybersecurity Expert <span style="white-space: nowrap;">Patrick Binder</span>
                 </h1>
                 <div style="flex-shrink: 0; position: relative;">
@@ -271,8 +273,12 @@
             <div class="section-header">
                 <span class="section-tag">Worker // Live Recon</span>
                 <h2 class="section-title">Domain Intelligence</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">A specialized Cloudflare Worker designed for rapid reconnaissance of Microsoft 365 tenants. It extracts public metadata, identifies associated domains, and maps tenant IDs from a single entry point.</p>
+                <div style="margin-top: 15px;">
+                    <a href="https://domain.ipscan.info/" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
+                </div>
             </div>
-            <div style="width: 100%; height: 600px; background: var(--bg-card); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px; box-shadow: var(--glow);">
+            <div style="width: 100%; height: 600px; background: var(--bg-panel); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px;">
                 <iframe src="https://domain.ipscan.info/" style="width: 100%; height: 100%; border: none;" title="Domain Intelligence Lookup"></iframe>
             </div>
         </section>
@@ -281,8 +287,12 @@
             <div class="section-header">
                 <span class="section-tag">Worker // Network Recon</span>
                 <h2 class="section-title">IP Intelligence</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">High-velocity network analysis node. Provides real-time reputation scoring, geolocation, and ASN mapping for forensic investigation and offensive IP rotation validation.</p>
+                <div style="margin-top: 15px;">
+                    <a href="https://www.ipscan.info/" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
+                </div>
             </div>
-            <div style="width: 100%; height: 600px; background: var(--bg-card); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px; box-shadow: var(--glow);">
+            <div style="width: 100%; height: 600px; background: var(--bg-panel); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px;">
                 <iframe src="https://www.ipscan.info/" style="width: 100%; height: 100%; border: none;" title="IP Intelligence Lookup"></iframe>
             </div>
         </section>
@@ -291,8 +301,12 @@
             <div class="section-header">
                 <span class="section-tag">Node // Automated Ops</span>
                 <h2 class="section-title">C-3PO Claw Terminal</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">Autonomous operation interface for orchestrating large-scale cloud assessments. Integrates directly with Azure REST APIs to automate the collection of offensive signals across the Entra ID surface.</p>
+                <div style="margin-top: 15px;">
+                    <a href="https://stc3ooclawrpfyx.z6.web.core.windows.net/" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
+                </div>
             </div>
-            <div style="width: 100%; height: 600px; background: var(--bg-card); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px; box-shadow: var(--glow);">
+            <div style="width: 100%; height: 600px; background: var(--bg-panel); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px;">
                 <iframe src="https://stc3ooclawrpfyx.z6.web.core.windows.net/" style="width: 100%; height: 100%; border: none;" title="Claw Terminal Live"></iframe>
             </div>
         </section>
@@ -394,7 +408,6 @@
 
     <script>
         lucide.createIcons();
-        // Theme toggle logic can be added here if needed, defaults to dark
     </script>
 </body>
 </html>
