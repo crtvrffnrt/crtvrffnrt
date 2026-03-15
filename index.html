@@ -31,8 +31,40 @@
         }
 
         /* Tactical Widgets and sections use Secondary Background */
-        .widget-area, .card, section div iframe {
+        .widget-area, .card, .iframe-container {
             background-color: var(--bg-panel) !important;
+        }
+
+        /* Shiny Spacy Border for Iframes */
+        .iframe-container {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .iframe-container::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background: linear-gradient(45deg, var(--accent), transparent, #8b5cf6, transparent) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .iframe-container:hover {
+            box-shadow: 0 0 25px rgba(0, 200, 255, 0.25);
         }
 
         /* Buttons using Primary Button colors */
@@ -179,9 +211,70 @@
             .dossier-grid { grid-template-columns: 1fr; gap: 40px; }
             .nav-links { display: none; }
         }
+
+        /* Subtle Dusty Space Background */
+        .space-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: -3;
+        }
+
+        .dusty-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(15, 15, 25, 0.8) 0%, #000 100%);
+            z-index: -2;
+            opacity: 0.15; /* Only 15% visibility as requested */
+            pointer-events: none;
+        }
+
+        /* Ship Animation with White Background Removal */
+        .ship-container {
+            position: absolute; /* Absolute so it stays at specific scroll depths */
+            top: 25%;
+            right: -500px;
+            width: 150px; /* Even smaller for more 'background' feel */
+            z-index: -5; /* Deep in the background */
+            pointer-events: none;
+            mix-blend-mode: screen; 
+            filter: invert(1) opacity(0.5); /* More transparent for depth */
+        }
+
+        #ship-image {
+            width: 100%;
+            height: auto;
+            filter: invert(1); 
+        }
+
+        .ship-moving {
+            animation: ship-fly-slow 50s linear forwards; /* 5x slower flight */
+        }
+
+        @keyframes ship-fly-slow {
+            0% {
+                right: -500px;
+                transform: scale(0.6);
+            }
+            100% {
+                right: 120%;
+                transform: scale(0.9);
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="space-bg"></div>
+    <div class="dusty-layer"></div>
+    <div id="ship-node" class="ship-container">
+        <img id="ship-image" src="space.png" alt="Imperial Star Destroyer">
+    </div>
 
     <nav>
         <div class="nav-content">
@@ -189,7 +282,7 @@
             <div class="nav-links">
                 <a href="#intel" class="nav-link">Intelligence</a>
                 <a href="#domain-intel" class="nav-link">Recon</a>
-                <a href="#claw-terminal" class="nav-link">Claw</a>
+                <a href="#neontrade" class="nav-link">NeonTrade</a>
                 <a href="#kali-terminal" class="nav-link">Terminal</a>
                 <a href="#neon-easm" class="nav-link">EASM</a>
                 <a href="#dossier" class="nav-link">About</a>
@@ -208,11 +301,11 @@
                 <span>2026.03.15</span>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; gap: 60px; margin-bottom: 40px;">
-                <h1 class="hero-title" style="margin-bottom: 0; flex: 1;">
+                <h1 class="hero-title" style="margin-bottom: 0; flex: 1; font-size: clamp(2.3rem, 6vw, 3.8rem);">
                     Offensive & Defensive Cybersecurity Expert <span style="white-space: nowrap;">Patrick Binder</span>
                 </h1>
                 <div style="flex-shrink: 0; position: relative;">
-                    <img src="logo.png" alt="Patrick Binder" style="width: 275px; height: auto; display: block; border: none; filter: brightness(1.1); -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 95%); mask-image: radial-gradient(ellipse at center, black 40%, transparent 95%);">
+                    <img src="logo.png" alt="Patrick Binder" style="width: 316px; height: auto; display: block; border: none; filter: brightness(1.1); -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 95%); mask-image: radial-gradient(ellipse at center, black 40%, transparent 95%);">
                 </div>
             </div>
             <p class="hero-description">Focused on Microsoft Cloud pentesting and offensive security with a strong emphasis on real-world attack paths across Entra ID, Azure, and the MS Online Services. I build autonomous systems and adversarial tools to secure the perimeter of modern identity infrastructure.</p>
@@ -343,7 +436,7 @@
                     <a href="https://domain.ipscan.info/" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
                 </div>
             </div>
-            <div style="width: 100%; height: 600px; background: var(--bg-panel); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px;">
+            <div class="iframe-container" style="width: 100%; height: 600px; margin-top: 20px;">
                 <iframe src="https://domain.ipscan.info/" style="width: 100%; height: 100%; border: none;" title="Domain Intelligence Lookup"></iframe>
             </div>
         </section>
@@ -357,33 +450,32 @@
                     <a href="https://www.ipscan.info/" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
                 </div>
             </div>
-            <div style="width: 100%; height: 600px; background: var(--bg-panel); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px;">
+            <div class="iframe-container" style="width: 100%; height: 600px; margin-top: 20px;">
                 <iframe src="https://www.ipscan.info/" style="width: 100%; height: 100%; border: none;" title="IP Intelligence Lookup"></iframe>
             </div>
         </section>
 
-        <section id="claw-terminal">
+        <section id="neontrade">
             <div class="section-header">
-                <span class="section-tag">Node // Automated Ops</span>
-                <h2 class="section-title">C-3PO Claw Terminal</h2>
-                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">Autonomous operation interface for orchestrating large-scale cloud assessments. Integrates directly with Azure REST APIs to automate the collection of offensive signals across the Entra ID surface.</p>
+                <span class="section-tag">Node // Cyber Circuit</span>
+                <h2 class="section-title">NeonTrade Terminal</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">High-velocity operational terminal for orchestrating autonomous trading and reconnaissance patterns within the neon-lit infrastructure.</p>
                 <div style="margin-top: 15px;">
-                    <a href="https://stc3ooclawrpfyx.z6.web.core.windows.net/" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
+                    <a href="neon.html" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
                 </div>
             </div>
-            <div style="width: 100%; height: 600px; background: var(--bg-panel); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px; position: relative;">
-                <!-- Zoomed out iframe using scale -->
-                <iframe src="https://stc3ooclawrpfyx.z6.web.core.windows.net/" style="width: 133.33%; height: 133.33%; border: none; transform: scale(0.75); transform-origin: 0 0;" title="Claw Terminal Live"></iframe>
+            <div class="iframe-container" style="width: 100%; height: 600px; margin-top: 20px;">
+                <iframe src="neon.html" style="width: 100%; height: 100%; border: none;" title="NeonTrade Live"></iframe>
             </div>
         </section>
 
-        <section id="kali-terminal">
-            <div class="section-header">
-                <span class="section-tag">Node // Kali Terminal</span>
-                <h2 class="section-title">Security Override Gate</h2>
-                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">Standard Kali-styled interface for proof-of-knowledge challenges and tool initialization.</p>
+        <section id="kali-terminal" style="padding: 40px 40px;">
+            <div class="section-header" style="margin-bottom: 25px;">
+                <span class="section-tag">Node // Terminal</span>
+                <h2 class="section-title" style="font-size: 1.5rem;">Security Override</h2>
+                <p style="margin-top: 10px; color: var(--text-secondary); max-width: 600px; font-size: 0.9rem;">Proof-of-knowledge gate for tool initialization.</p>
             </div>
-            <div style="width: 100%; height: 500px; background: #05080f; border: 1px solid var(--border); border-radius: 8px; overflow: hidden;">
+            <div class="iframe-container" style="width: 100%; height: 300px;">
                 <iframe src="terminal.html" style="width: 100%; height: 100%; border: none;" title="Kali Security Gate"></iframe>
             </div>
         </section>
@@ -397,7 +489,7 @@
                     <a href="https://stc3ooclawrpfyx.z6.web.core.windows.net/easm.html" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
                 </div>
             </div>
-            <div style="width: 100%; height: 600px; background: var(--bg-panel); border: 1px dashed var(--border); border-radius: 4px; overflow: hidden; margin-top: 20px;">
+            <div class="iframe-container" style="width: 100%; height: 600px; margin-top: 20px;">
                 <iframe src="https://stc3ooclawrpfyx.z6.web.core.windows.net/easm.html" style="width: 100%; height: 100%; border: none;" title="NEON-EASM Live"></iframe>
             </div>
         </section>
@@ -407,17 +499,33 @@
                 <span class="section-tag">Node // Identity Mapping</span>
                 <h2 class="section-title">BloodHound IR Workspace</h2>
                 <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">Modular, operator-centric visualizer for mapping Entra ID relationships and compromise blast radius. Designed for rapid triage during True-Positive identity incidents.</p>
-                <div style="margin-top: 15px;">
+                
+                <div style="margin-top: 25px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div class="mono" style="font-size: 0.8rem; border-left: 2px solid var(--accent); padding-left: 15px;">
+                        <span style="color: var(--accent); font-weight: 800;">OPTIMIZATION: MINIMALIST_DATA</span><br>
+                        Switched to a 3.5KB minimal dataset to ensure near-instant loading within the iframe context.
+                    </div>
+                    <div class="mono" style="font-size: 0.8rem; border-left: 2px solid var(--accent); padding-left: 15px;">
+                        <span style="color: var(--accent); font-weight: 800;">OPTIMIZATION: SECURITY_HEADERS</span><br>
+                        Configured frame-ancestors restricted to primary domain for production safety and cross-origin integrity.
+                    </div>
+                    <div class="mono" style="font-size: 0.8rem; border-left: 2px solid var(--accent); padding-left: 15px;">
+                        <span style="color: var(--accent); font-weight: 800;">OPTIMIZATION: UI_ADAPTABILITY</span><br>
+                        Auto-triggers a compact, touch-friendly "Embed View" when loaded via ?embed=1 parameter.
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
                     <a href="bloodhound_app.html" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_HOW_TO_GUIDE ]</a>
                 </div>
             </div>
             <div class="widget-area" style="border: 1px solid var(--border); border-radius: 8px; padding: 0; overflow: hidden; height: 600px; position: relative; background: #000 !important;">
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden;">
+                <div class="iframe-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden;">
                     <!-- Embedded BloodHound Canvas -->
-                    <iframe src="http://default.germanywestcentral.cloudapp.azure.com/" style="width: 100%; height: 100%; border: none; filter: contrast(1.1) brightness(0.9) saturate(1.2);" title="BloodHound IR Canvas"></iframe>
+                    <iframe src="https://orange-sea-01a569f03.1.azurestaticapps.net/?embed=1" style="width: 100%; height: 100%; border: none; filter: contrast(1.1) brightness(0.9) saturate(1.2);" title="BloodHound IR Canvas"></iframe>
                 </div>
                 <div style="position: absolute; bottom: 20px; left: 20px; z-index: 10;">
-                    <a href="http://default.germanywestcentral.cloudapp.azure.com/" target="_blank" class="btn-primary" style="box-shadow: 0 0 20px rgba(0, 153, 255, 0.4);">
+                    <a href="https://orange-sea-01a569f03.1.azurestaticapps.net/" target="_blank" class="btn-primary" style="box-shadow: 0 0 20px rgba(0, 153, 255, 0.4);">
                         <i data-lucide="external-link" size="18"></i> LAUNCH_FULL_APPLICATION
                     </a>
                 </div>
@@ -466,6 +574,29 @@
 
     <script>
         lucide.createIcons();
+
+        // Autonomous Ship Controller
+        const ship = document.getElementById('ship-node');
+        
+        function launchShip() {
+            // Randomize Height between 5% and 85% of total document height
+            const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+            const randomTop = Math.floor(Math.random() * (docHeight * 0.8)) + (docHeight * 0.05);
+            
+            ship.style.top = `${randomTop}px`;
+            ship.classList.remove('ship-moving');
+            
+            // Trigger reflow to restart animation
+            void ship.offsetWidth;
+            
+            ship.classList.add('ship-moving');
+            
+            // Wait for flight (50s) + Request Wait (30s reappear + 10s delay = 40s) = 90s total cycle
+            setTimeout(launchShip, 90000);
+        }
+
+        // Initial delay before first flight
+        setTimeout(launchShip, 5000);
     </script>
 </body>
 </html>
