@@ -109,15 +109,39 @@
         }
 
         .nav-brand { font-weight: 900; font-size: 1.1rem; text-transform: uppercase; cursor: pointer; }
-        .nav-links { display: flex; gap: 30px; }
-        .nav-link { 
-            text-decoration: none; 
-            color: var(--text-secondary); 
-            font-weight: 500; 
-            font-size: 0.9rem;
-            transition: color 0.2s;
+        .nav-links { display: flex; gap: 30px; align-items: center; }
+        
+        .ship-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+            position: relative;
         }
-        .nav-link:hover { color: var(--highlight); }
+
+        .ship-btn:hover {
+            transform: scale(1.4) translateY(-5px);
+            filter: brightness(1.2) drop-shadow(0 0 10px var(--accent));
+        }
+
+        .ship-btn::after {
+            content: attr(title);
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--accent);
+            opacity: 0;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .ship-btn:hover::after {
+            opacity: 1;
+        }
 
         /* Hero - Deepness and Insight */
         .hero {
@@ -128,7 +152,7 @@
         }
 
         .hero-meta { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
-        .hero-title { font-size: clamp(2.7rem, 7.2vw, 4.5rem); line-height: 1.1; margin-bottom: 30px; }
+        .hero-title { font-size: clamp(2.3rem, 6vw, 3.8rem); line-height: 1.1; margin-bottom: 30px; }
         .hero-description { font-size: 1.4rem; color: var(--text-secondary); max-width: 700px; font-weight: 400; }
 
         /* Section Layout */
@@ -240,11 +264,11 @@
             position: absolute; /* Absolute so it stays at specific scroll depths */
             top: 25%;
             right: -500px;
-            width: 150px; /* Even smaller for more 'background' feel */
+            width: 200px; /* Decent size but far away */
             z-index: -5; /* Deep in the background */
             pointer-events: none;
             mix-blend-mode: screen; 
-            filter: invert(1) opacity(0.5); /* More transparent for depth */
+            filter: invert(1) opacity(0.75); /* Increased presence */
         }
 
         #ship-image {
@@ -279,15 +303,6 @@
     <nav>
         <div class="nav-content">
             <div class="nav-brand" onclick="window.scrollTo(0,0)">PB | SOC Analyst | Incident Responder | Pentester</div>
-            <div class="nav-links">
-                <a href="#intel" class="nav-link">Intelligence</a>
-                <a href="#domain-intel" class="nav-link">Recon</a>
-                <a href="#neontrade" class="nav-link">NeonTrade</a>
-                <a href="#kali-terminal" class="nav-link">Terminal</a>
-                <a href="#neon-easm" class="nav-link">EASM</a>
-                <a href="#dossier" class="nav-link">About</a>
-                <a href="https://github.com/crtvrffnrt" class="nav-link">GitHub</a>
-            </div>
         </div>
     </nav>
 
@@ -406,6 +421,15 @@
                         <i data-lucide="arrow-right" size="16"></i>
                     </div>
                 </a>
+                <a href="roadtools_blog.html" class="card">
+                    <span class="card-category">Identity Recon</span>
+                    <h3 class="card-title">Entra ID Recon Mastery: Utilizing ROADtools</h3>
+                    <p class="card-desc">Aggregating Microsoft Graph metadata into a queryable SQLite database for high-fidelity security audits.</p>
+                    <div class="card-footer">
+                        <span>Read Post</span>
+                        <i data-lucide="arrow-right" size="16"></i>
+                    </div>
+                </a>
                 <a href="https://patrickbinder.medium.com/entra-id-password-spraying-using-apim-as-ip-rotating-mechanism-3620861dd66a" target="_blank" class="card">
                     <span class="card-category">Offensive Research</span>
                     <h3 class="card-title">Entra ID Password Spraying via APIM (EN)</h3>
@@ -424,6 +448,20 @@
                         <i data-lucide="external-link" size="16"></i>
                     </div>
                 </a>
+            </div>
+        </section>
+
+        <section id="openclaw">
+            <div class="section-header">
+                <span class="section-tag">Node // AI Analysis</span>
+                <h2 class="section-title">OpenClaw AI Supercycle</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">Autonomous AI-Supercycle Stock Analysis & Strategy node. Orchestrates high-conviction directional forecasts by fusing OSINT with price structure.</p>
+                <div style="margin-top: 15px;">
+                    <a href="https://stc3ooclawrpfyx.z6.web.core.windows.net/index.html" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
+                </div>
+            </div>
+            <div class="iframe-container" style="width: 100%; height: 800px; margin-top: 20px;">
+                <iframe src="https://stc3ooclawrpfyx.z6.web.core.windows.net/index.html" style="width: 100%; height: 100%; border: none;" title="OpenClaw AI Supercycle"></iframe>
             </div>
         </section>
 
@@ -452,20 +490,6 @@
             </div>
             <div class="iframe-container" style="width: 100%; height: 600px; margin-top: 20px;">
                 <iframe src="https://www.ipscan.info/" style="width: 100%; height: 100%; border: none;" title="IP Intelligence Lookup"></iframe>
-            </div>
-        </section>
-
-        <section id="neontrade">
-            <div class="section-header">
-                <span class="section-tag">Node // Cyber Circuit</span>
-                <h2 class="section-title">NeonTrade Terminal</h2>
-                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">High-velocity operational terminal for orchestrating autonomous trading and reconnaissance patterns within the neon-lit infrastructure.</p>
-                <div style="margin-top: 15px;">
-                    <a href="neon.html" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
-                </div>
-            </div>
-            <div class="iframe-container" style="width: 100%; height: 600px; margin-top: 20px;">
-                <iframe src="neon.html" style="width: 100%; height: 100%; border: none;" title="NeonTrade Live"></iframe>
             </div>
         </section>
 
@@ -591,8 +615,8 @@
             
             ship.classList.add('ship-moving');
             
-            // Wait for flight (50s) + Request Wait (30s reappear + 10s delay = 40s) = 90s total cycle
-            setTimeout(launchShip, 90000);
+            // Wait for flight (50s) + Request Wait (25s) = 75s total cycle
+            setTimeout(launchShip, 75000);
         }
 
         // Initial delay before first flight
