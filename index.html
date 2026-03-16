@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PATRICK BINDER // DEFENSIVE ARCHITECT</title>
+    <title>Patrick Binder</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.284.0/lucide.min.js"></script>
     <style>
@@ -320,7 +320,7 @@
                     Offensive & Defensive Cybersecurity Expert <span style="white-space: nowrap;">Patrick Binder</span>
                 </h1>
                 <div style="flex-shrink: 0; position: relative;">
-                    <img src="logo.png" alt="Patrick Binder" style="width: 316px; height: auto; display: block; border: none; filter: brightness(1.1); -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 95%); mask-image: radial-gradient(ellipse at center, black 40%, transparent 95%);">
+                    <img id="hero-face-img" src="logo.png" alt="Patrick Binder" style="width: 316px; height: auto; display: block; border: none; filter: brightness(1.1); -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 95%); mask-image: radial-gradient(ellipse at center, black 40%, transparent 95%); transition: filter 0.2s ease-in-out;">
                 </div>
             </div>
             <p class="hero-description">Focused on Microsoft Cloud pentesting and offensive security with a strong emphasis on real-world attack paths across Entra ID, Azure, and the MS Online Services. I build autonomous systems and adversarial tools to secure the perimeter of modern identity infrastructure.</p>
@@ -621,6 +621,35 @@
 
         // Initial delay before first flight
         setTimeout(launchShip, 5000);
+
+        // Cyber Glitch Face Effect
+        const faceImg = document.getElementById('hero-face-img');
+        const defaultFace = 'logo.png';
+        const glitchFaces = ['up.png', 'down.png', 'left.png', 'right.png'];
+
+        function triggerFaceGlitch() {
+            if (!faceImg) return;
+            
+            // Pick a random alternative face
+            const randomFace = glitchFaces[Math.floor(Math.random() * glitchFaces.length)];
+            faceImg.style.filter = "brightness(1.5) contrast(1.2)";
+            faceImg.src = randomFace;
+            
+            // Revert back to the normal logo after a short glimpse (200ms - 800ms)
+            const glimpseDuration = Math.floor(Math.random() * 600) + 200;
+            setTimeout(() => {
+                faceImg.src = defaultFace;
+                faceImg.style.filter = "brightness(1.1)";
+            }, glimpseDuration);
+
+            // Schedule the next glitch randomly between 15s and 60s
+            // as requested (15, 30, 60 interval range)
+            const nextGlitchTime = Math.floor(Math.random() * 45000) + 15000;
+            setTimeout(triggerFaceGlitch, nextGlitchTime);
+        }
+
+        // Start the first glitch soon
+        setTimeout(triggerFaceGlitch, Math.floor(Math.random() * 10000) + 5000);
     </script>
 </body>
 </html>
