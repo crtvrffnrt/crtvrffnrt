@@ -309,11 +309,11 @@
     <main>
         <section class="hero">
             <div class="hero-meta mono uppercase">
-                <span>Directives: Active</span>
+                <span>Personal Blog</span>
                 <span>•</span>
-                <span>Node: Azure_34846</span>
+                <span>Tech: Azure Storage - Static Web</span>
                 <span>•</span>
-                <span>2026.03.15</span>
+                <span id="current-date">--:--:--</span>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; gap: 60px; margin-bottom: 40px;">
                 <h1 class="hero-title" style="margin-bottom: 0; flex: 1; font-size: clamp(2.3rem, 6vw, 3.8rem);">
@@ -599,56 +599,48 @@
     <script>
         lucide.createIcons();
 
+        // Live Date/Time Updater
+        function pad(n) { return n < 10 ? '0' + n : n; }
+         function updateDateTime() {
+       const el = document.getElementById('current-date');
+       if (!el) return;
+       const n = new Date();
+       const p = (v) => v.toString().padStart(2, '0');
+       el.textContent = p(n.getHours()) + ":" + p(n.getMinutes()) + ":" + p(n.getSeconds());
+   }
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
         // Autonomous Ship Controller
         const ship = document.getElementById('ship-node');
-        
         function launchShip() {
-            // Randomize Height between 5% and 85% of total document height
             const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
             const randomTop = Math.floor(Math.random() * (docHeight * 0.8)) + (docHeight * 0.05);
-            
             ship.style.top = `${randomTop}px`;
             ship.classList.remove('ship-moving');
-            
-            // Trigger reflow to restart animation
             void ship.offsetWidth;
-            
             ship.classList.add('ship-moving');
-            
-            // Wait for flight (50s) + Request Wait (25s) = 75s total cycle
             setTimeout(launchShip, 75000);
         }
-
-        // Initial delay before first flight
         setTimeout(launchShip, 5000);
 
         // Cyber Glitch Face Effect
         const faceImg = document.getElementById('hero-face-img');
         const defaultFace = 'logo.png';
         const glitchFaces = ['up.png', 'down.png', 'left.png', 'right.png'];
-
         function triggerFaceGlitch() {
             if (!faceImg) return;
-            
-            // Pick a random alternative face
             const randomFace = glitchFaces[Math.floor(Math.random() * glitchFaces.length)];
             faceImg.style.filter = "brightness(1.5) contrast(1.2)";
             faceImg.src = randomFace;
-            
-            // Revert back to the normal logo after a short glimpse (200ms - 800ms)
             const glimpseDuration = Math.floor(Math.random() * 600) + 200;
             setTimeout(() => {
                 faceImg.src = defaultFace;
                 faceImg.style.filter = "brightness(1.1)";
             }, glimpseDuration);
-
-            // Schedule the next glitch randomly between 15s and 60s
-            // as requested (15, 30, 60 interval range)
             const nextGlitchTime = Math.floor(Math.random() * 45000) + 15000;
             setTimeout(triggerFaceGlitch, nextGlitchTime);
         }
-
-        // Start the first glitch soon
         setTimeout(triggerFaceGlitch, Math.floor(Math.random() * 10000) + 5000);
     </script>
 </body>
