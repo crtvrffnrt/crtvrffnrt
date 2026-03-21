@@ -481,17 +481,6 @@
             </div>
         </section>
 
-        <section id="kali-terminal" style="padding: 40px 40px;">
-            <div class="section-header" style="margin-bottom: 25px;">
-                <span class="section-tag">Node // Terminal</span>
-                <h2 class="section-title" style="font-size: 1.5rem;">Security Override</h2>
-                <p style="margin-top: 10px; color: var(--text-secondary); max-width: 600px; font-size: 0.9rem;">Proof-of-knowledge gate for tool initialization.</p>
-            </div>
-            <div class="iframe-container" style="width: 100%; height: 300px;">
-                <iframe src="terminal.html" style="width: 100%; height: 100%; border: none;" title="Kali Security Gate"></iframe>
-            </div>
-        </section>
-
         <section id="neon-easm">
             <div class="section-header">
                 <span class="section-tag">Worker // Perimeter Recon</span>
@@ -588,14 +577,14 @@
         lucide.createIcons();
 
         // Live Date/Time Updater
-        function pad(n) { return n < 10 ? '0' + n : n; }
-         function updateDateTime() {
-       const el = document.getElementById('current-date');
-       if (!el) return;
-       const n = new Date();
-       const p = (v) => v.toString().padStart(2, '0');
-       el.textContent = p(n.getHours()) + ":" + p(n.getMinutes()) + ":" + p(n.getSeconds());
-   }
+        function updateDateTime() {
+            const el = document.getElementById('current-date');
+            if (!el) return;
+            const now = new Date();
+            el.textContent = now.getHours().toString().padStart(2, '0') + ':' + 
+                             now.getMinutes().toString().padStart(2, '0') + ':' + 
+                             now.getSeconds().toString().padStart(2, '0');
+        }
         setInterval(updateDateTime, 1000);
         updateDateTime();
 
