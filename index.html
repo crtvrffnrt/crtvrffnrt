@@ -236,6 +236,151 @@
             .nav-links { display: none; }
         }
 
+        /* --- 3D Spinwheel Component --- */
+        .wheel-outer-container {
+            width: 100%;
+            height: 600px;
+            margin: 40px 0;
+            position: relative;
+            background: radial-gradient(circle at 50% 50%, #0d0d0d 0%, #000 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
+        }
+
+        .wheel-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1500px;
+            cursor: grab;
+        }
+
+        .wheel-container:active { cursor: grabbing; }
+
+        .wheel {
+            position: relative;
+            width: 90%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.1s linear;
+        }
+
+        .wheel-item {
+            position: absolute;
+            width: 100%;
+            height: 90px;
+            left: 0;
+            top: 50%;
+            margin-top: -45px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+            background: rgba(15, 15, 15, 0.9);
+            border: 1px solid rgba(0, 200, 255, 0.1);
+            border-radius: 12px;
+            backface-visibility: hidden;
+            backdrop-filter: blur(10px);
+            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s, transform 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .wheel-item:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(0, 200, 255, 0.3);
+            background: rgba(25, 25, 25, 1);
+            z-index: 100;
+            transform: scale(1.02) !important; /* Will be combined with 3D transform by JS if needed, but here we just want a slight pop */
+        }
+
+        .wheel-item:active {
+            transform: scale(0.98) !important;
+        }
+
+        .wheel-item-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            pointer-events: none;
+        }
+
+        .wheel-item-category {
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .wheel-item-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 650px;
+        }
+
+        .wheel-item-link {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--btn-bg);
+            color: white;
+            padding: 10px 22px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .wheel-item-link:hover {
+            background: var(--btn-hover);
+            transform: scale(1.05);
+        }
+
+        /* Gradient Overlays for "rounded" look */
+        .wheel-overlay {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 25%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .wheel-overlay-top {
+            top: 0;
+            background: linear-gradient(to bottom, #000 0%, transparent 100%);
+        }
+        .wheel-overlay-bottom {
+            bottom: 0;
+            background: linear-gradient(to top, #000 0%, transparent 100%);
+        }
+
+        /* Subtle Spin Info */
+        .wheel-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+            z-index: 20;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
         /* Subtle Dusty Space Background */
         .space-bg {
             position: fixed;
@@ -336,115 +481,16 @@
                 <span class="section-tag">Archive // Latest Drops</span>
                 <h2 class="section-title">Technical Intel & Research</h2>
             </div>
-            <div class="grid">
-                <a href="cve_template.html" class="card">
-                    <span class="card-category">Vulnerability Research</span>
-                    <h3 class="card-title">CVE Disclosure Template: Professional Reporting</h3>
-                    <p class="card-desc">A modern, monochrome disclosure template for high-quality CVE submissions and technical research blog posts.</p>
-                    <div class="card-footer">
-                        <span>View Template</span>
-                        <i data-lucide="arrow-right" size="16"></i>
+            
+            <div class="wheel-outer-container">
+                <div class="wheel-overlay wheel-overlay-top"></div>
+                <div class="wheel-overlay wheel-overlay-bottom"></div>
+                <div class="wheel-hint">[ DRAG TO SPIN ]</div>
+                <div class="wheel-container" id="wheel-container">
+                    <div class="wheel" id="wheel">
+                        <!-- Items injected by JS -->
                     </div>
-                </a>
-                <a href="404.html" class="card">
-                    <span class="card-category">Offensive Visuals</span>
-                    <h3 class="card-title">APIMSpray in Action: The Forensic Footprint</h3>
-                    <p class="card-desc">Analyzing sign-in logs and defender views during a real-world APIM-based password spray.</p>
-                    <div class="card-footer">
-                        <span>Read Post</span>
-                        <i data-lucide="arrow-right" size="16"></i>
-                    </div>
-                </a>
-                <a href="404.html" class="card">
-                    <span class="card-category">Post-Compromise</span>
-                    <h3 class="card-title">Entra ID: Stealth Persistence via Managed Identities</h3>
-                    <p class="card-desc">Leveraging credential-less identities for long-term, undetected access in Azure tenants.</p>
-                    <div class="card-footer">
-                        <span>Read Post</span>
-                        <i data-lucide="arrow-right" size="16"></i>
-                    </div>
-                </a>
-                <a href="404.html" class="card">
-                    <span class="card-category">Offensive Identity</span>
-                    <h3 class="card-title">Entra ID: Device Code Phishing & MFA Bypass</h3>
-                    <p class="card-desc">Weaponizing the Device Code Flow to bypass modern Conditional Access and hijack user sessions.</p>
-                    <div class="card-footer">
-                        <span>Read Post</span>
-                        <i data-lucide="arrow-right" size="16"></i>
-                    </div>
-                </a>
-                <a href="ivanti_exploit_detection.html" class="card">
-                    <span class="card-category">Detection Engineering</span>
-                    <h3 class="card-title">Ivanti Connect Secure: Hunt & Detect</h3>
-                    <p class="card-desc">Translating Ivanti edge-gateway exploits into actionable KQL hunting queries for Microsoft Sentinel.</p>
-                    <div class="card-footer">
-                        <span>Read Post</span>
-                        <i data-lucide="arrow-right" size="16"></i>
-                    </div>
-                </a>
-                <a href="bloodhound_app.html" class="card">
-                    <span class="card-category">Security Engineering</span>
-                    <h3 class="card-title">How-To: Building a BloodHound IR App</h3>
-                    <p class="card-desc">Building a modular, operator-centric visualizer for Microsoft Entra environments to map compromise and blast radius.</p>
-                    <div class="card-footer">
-                        <span>Read Post</span>
-                        <i data-lucide="arrow-right" size="16"></i>
-                    </div>
-                </a>
-                <a href="kql_forge_blog.html" class="card">
-                    <span class="card-category">Detection Engineering</span>
-                    <h3 class="card-title">Sentinel KQL Forge: Natural Language to Hunting</h3>
-                    <p class="card-desc">Bridging the gap between analyst intent and Kusto Query Language through schema-aware synthesis.</p>
-                    <div class="card-footer">
-                        <span>Read Post</span>
-                        <i data-lucide="arrow-right" size="16"></i>
-                    </div>
-                </a>
-                <a href="404.html" class="card">
-                    <span class="card-category">Incident Response</span>
-                    <h3 class="card-title">Gemini-Powered Azure IR: KQL Mastery and Automated Intelligence</h3>
-                    <p class="card-desc">Building autonomous response nodes utilizing Gemini CLI for real-time Azure REST API interrogation and forensic sweeps.</p>
-                    <div class="card-footer">
-                        <span>Read Post</span>
-                        <i data-lucide="arrow-right" size="16"></i>
-                    </div>
-                </a>
-                <a href="404.html" class="card">
-                    <span class="card-category">Offensive Research</span>
-                    <h3 class="card-title">Entra ID Password Spraying via APIM (DE)</h3>
-                    <p class="card-desc">Nutzung von Azure API Management als IP-Rotations-Mechanismus zur Umgehung von Reputationsfiltern.</p>
-                    <div class="card-footer">
-                        <span>Blog lesen</span>
-                        <i data-lucide="arrow-right" size="16"></i>
-                    </div>
-                </a>
-                <a href="404.html" class="card">
-                    <span class="card-category">Identity Recon</span>
-                    <h3 class="card-title">Entra ID Recon Mastery: Utilizing ROADtools</h3>
-                    <p class="card-desc">Aggregating Microsoft Graph metadata into a queryable SQLite database for high-fidelity security audits.</p>
-                    <div class="card-footer">
-                        <span>Read Post</span>
-                        <i data-lucide="arrow-right" size="16"></i>
-                    </div>
-                </a>
-                <a href="https://patrickbinder.medium.com/entra-id-password-spraying-using-apim-as-ip-rotating-mechanism-3620861dd66a" target="_blank" class="card">
-                    <span class="card-category">Offensive Research</span>
-                    <h3 class="card-title">Entra ID Password Spraying via APIM (EN)</h3>
-                    <p class="card-desc">Leveraging Azure API Management to bypass reputation-based defenses and scale credential-based attacks.</p>
-                    <div class="card-footer">
-                        <span>Medium.com</span>
-                        <i data-lucide="external-link" size="16"></i>
-                    </div>
-                </a>
-                <a href="https://patrickbinder.medium.com/app-passwords-in-microsoft-entra-id-a-hidden-mfa-bypass-risk-0c70973a078e" target="_blank" class="card">
-                    <span class="card-category">Forensics</span>
-                    <h3 class="card-title">App Passwords in Entra ID: A Hidden MFA Bypass Risk</h3>
-                    <p class="card-desc">Uncovering the legacy authentication gaps that allow attackers to bypass modern Conditional Access controls.</p>
-                    <div class="card-footer">
-                        <span>Medium.com</span>
-                        <i data-lucide="external-link" size="16"></i>
-                    </div>
-                </a>
+                </div>
             </div>
         </section>
 
@@ -501,47 +547,6 @@
             </div>
             <div class="iframe-container" style="width: 100%; height: 600px; margin-top: 20px;">
                 <iframe src="https://stc3ooclawrpfyx.z6.web.core.windows.net/easm.html" style="width: 100%; height: 100%; border: none;" title="NEON-EASM Live"></iframe>
-            </div>
-        </section>
-
-        <section id="bloodhound-ir">
-            <div class="section-header">
-                <span class="section-tag">Node // Identity Mapping</span>
-                <h2 class="section-title">BloodHound IR Workspace</h2>
-                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">Modular, operator-centric visualizer for mapping Entra ID relationships and compromise blast radius. Designed for rapid triage during True-Positive identity incidents.</p>
-                
-                <div style="margin-top: 25px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                    <div class="mono" style="font-size: 0.8rem; border-left: 2px solid var(--accent); padding-left: 15px;">
-                        <span style="color: var(--accent); font-weight: 800;">OPTIMIZATION: MINIMALIST_DATA</span><br>
-                        Switched to a 3.5KB minimal dataset to ensure near-instant loading within the iframe context.
-                    </div>
-                    <div class="mono" style="font-size: 0.8rem; border-left: 2px solid var(--accent); padding-left: 15px;">
-                        <span style="color: var(--accent); font-weight: 800;">OPTIMIZATION: SECURITY_HEADERS</span><br>
-                        Configured frame-ancestors restricted to primary domain for production safety and cross-origin integrity.
-                    </div>
-                    <div class="mono" style="font-size: 0.8rem; border-left: 2px solid var(--accent); padding-left: 15px;">
-                        <span style="color: var(--accent); font-weight: 800;">OPTIMIZATION: UI_ADAPTABILITY</span><br>
-                        Auto-triggers a compact, touch-friendly "Embed View" when loaded via ?embed=1 parameter.
-                    </div>
-                </div>
-
-                <div style="margin-top: 20px;">
-                    <a href="bloodhound_app.html" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_HOW_TO_GUIDE ]</a>
-                </div>
-            </div>
-            <div class="widget-area" style="border: 1px solid var(--border); border-radius: 8px; padding: 0; overflow: hidden; height: 600px; position: relative; background: #000 !important;">
-                <div class="iframe-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden;">
-                    <!-- Embedded BloodHound Canvas -->
-                    <iframe src="https://orange-sea-01a569f03.1.azurestaticapps.net/?embed=1" style="width: 100%; height: 100%; border: none; filter: contrast(1.1) brightness(0.9) saturate(1.2);" title="BloodHound IR Canvas"></iframe>
-                </div>
-                <div style="position: absolute; bottom: 20px; left: 20px; z-index: 10;">
-                    <a href="https://orange-sea-01a569f03.1.azurestaticapps.net/" target="_blank" class="btn-primary" style="box-shadow: 0 0 20px rgba(0, 153, 255, 0.4);">
-                        <i data-lucide="external-link" size="18"></i> LAUNCH_FULL_APPLICATION
-                    </a>
-                </div>
-                <div style="position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.6); padding: 5px 10px; border-radius: 4px; border: 1px solid var(--border); z-index: 10;">
-                    <span class="mono" style="font-size: 0.7rem; color: var(--accent);">LIVE_APPLICATION_STREAM</span>
-                </div>
             </div>
         </section>
 
@@ -628,6 +633,151 @@
             setTimeout(triggerFaceGlitch, nextGlitchTime);
         }
         setTimeout(triggerFaceGlitch, Math.floor(Math.random() * 10000) + 5000);
+
+        // --- Spinwheel Logic ---
+        const posts = [
+            { title: "Identity Is the New Perimeter Breach", category: "Identity Security", url: "identity-is-the-new-perimeter-breach-how-modern-entra-id-attacks-actually-unfold.html" },
+            { title: "APIMSpray Execution Footprint", category: "Offensive Visuals", url: "apimspray_execution_footprint.html" },
+            { title: "Building a BloodHound IR App", category: "Security Engineering", url: "bloodhound_app.html" },
+            { title: "Agent Security: Attacker's Perspective", category: "Identity Security", url: "agent-security-from-an-identity-attackers-perspective.html" },
+            { title: "Practical Cloud Identity IR Playbook", category: "Incident Response", url: "from-first-signal-to-containment-a-practical-cloud-identity-ir-playbook.html" },
+            { title: "Entra ID: Stealth Persistence", category: "Post-Compromise", url: "entra_stealth_persistence.html" },
+            { title: "Entra ID: Device Code Phishing", category: "Offensive Identity", url: "entra_device_code_phishing.html" },
+            { title: "Guardrailed LLM for Incident Response", category: "AI Security", url: "guardrailed-llm-assistance-for-incident-response-useful-fast-and-still-safe.html" },
+            { title: "Weaponizing Azure APIM (DE)", category: "Offensive Research", url: "apim_spray_de.html" },
+            { title: "Ivanti Connect Secure: Hunt & Detect", category: "Detection Engineering", url: "ivanti_exploit_detection.html" },
+            { title: "Sentinel KQL Forge: Natural Language Hunting", category: "Detection Engineering", url: "kql_forge_blog.html" },
+            { title: "Gemini-Powered Azure IR", category: "Incident Response", url: "ir_blog.html" },
+            { title: "LLM-Powered Entra ID Attacks", category: "AI Security", url: "llm_entra_attack.html" },
+            { title: "Entra ID Detection Engineering 2026", category: "Detection Engineering", url: "what-good-entra-id-detection-engineering-looks-like-in-2026.html" },
+            { title: "Entra ID Password Spraying via APIM (EN)", category: "Offensive Research", url: "https://patrickbinder.medium.com/entra-id-password-spraying-using-apim-as-ip-rotating-mechanism-3620861dd66a" },
+            { title: "App Passwords: A Hidden MFA Bypass Risk", category: "Forensics", url: "https://patrickbinder.medium.com/app-passwords-in-microsoft-entra-id-a-hidden-mfa-bypass-risk-0c70973a078e" }
+        ];
+
+        const wheel = document.getElementById('wheel');
+        const wheelContainer = document.getElementById('wheel-container');
+        const itemCount = posts.length;
+        const angleStep = 360 / itemCount;
+        const radius = 280; // Adjusted for better screen visibility within 600px container
+
+        posts.forEach((post, i) => {
+            const item = document.createElement('a');
+            item.className = 'wheel-item';
+            item.href = post.url;
+            if (post.url.startsWith('http')) item.target = '_blank';
+            
+            const angle = i * angleStep;
+            item.style.transform = `rotateX(${angle}deg) translateZ(${radius}px)`;
+            
+            item.innerHTML = `
+                <div class="wheel-item-content">
+                    <span class="wheel-item-category">${post.category}</span>
+                    <span class="wheel-item-title">${post.title}</span>
+                </div>
+                <div class="wheel-item-link">
+                    READ POST <i data-lucide="arrow-right" size="14"></i>
+                </div>
+            `;
+            wheel.appendChild(item);
+        });
+
+        // Re-initialize lucide for new icons
+        lucide.createIcons();
+
+        let currentRotation = 30; // Start with a slight tilt for visibility
+        let isDragging = false;
+        let dragStartTime = 0;
+        let lastY = 0;
+        let velocity = 0;
+
+        function updateItemVisibility() {
+            const items = document.querySelectorAll('.wheel-item');
+            items.forEach((item, i) => {
+                const angle = (i * angleStep) - currentRotation;
+                const normalizedAngle = ((angle % 360) + 360) % 360;
+                
+                // Calculate opacity based on proximity to front (0 or 360 degrees)
+                let distance = Math.abs(normalizedAngle);
+                if (distance > 180) distance = 360 - distance;
+                
+                const opacity = Math.max(0.1, 1 - (distance / 90));
+                item.style.opacity = opacity;
+                
+                // Optional: disable pointer events for items that are too far back
+                if (distance > 80) {
+                    item.style.pointerEvents = 'none';
+                } else {
+                    item.style.pointerEvents = 'auto';
+                }
+            });
+        }
+
+        wheel.style.transform = `rotateX(${-currentRotation}deg)`;
+        updateItemVisibility();
+
+        wheelContainer.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            dragStartTime = Date.now();
+            lastY = e.clientY;
+            velocity = 0;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const deltaY = e.clientY - lastY;
+            velocity = deltaY * 0.4;
+            currentRotation += velocity;
+            wheel.style.transform = `rotateX(${-currentRotation}deg)`;
+            updateItemVisibility();
+            lastY = e.clientY;
+        });
+
+        // Prevent click if we were dragging
+        wheel.addEventListener('click', (e) => {
+            const dragDuration = Date.now() - dragStartTime;
+            if (dragDuration > 200 || Math.abs(velocity) > 1) {
+                e.preventDefault();
+            }
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Touch support
+        wheelContainer.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            dragStartTime = Date.now();
+            lastY = e.touches[0].clientY;
+            velocity = 0;
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            const deltaY = e.touches[0].clientY - lastY;
+            velocity = deltaY * 0.4;
+            currentRotation += velocity;
+            wheel.style.transform = `rotateX(${-currentRotation}deg)`;
+            updateItemVisibility();
+            lastY = e.touches[0].clientY;
+            if (Math.abs(deltaY) > 5) e.preventDefault(); 
+        }, { passive: false });
+
+        window.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        // Momentum & Auto-spin Animation
+        function animateWheel() {
+            if (!isDragging && Math.abs(velocity) > 0.05) {
+                velocity *= 0.96; // Friction
+                currentRotation += velocity;
+                wheel.style.transform = `rotateX(${-currentRotation}deg)`;
+                updateItemVisibility();
+            }
+            requestAnimationFrame(animateWheel);
+        }
+        animateWheel();
     </script>
 </body>
 </html>
