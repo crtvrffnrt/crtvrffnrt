@@ -231,154 +231,139 @@
 
         /* Media Queries */
         @media (max-width: 800px) {
-            .hero { padding: 80px 20px; }
+            .hero { padding: 60px 20px 40px; }
+            .hero > div[style*="flex"] { 
+                flex-direction: column !important; 
+                gap: 20px !important; 
+                text-align: center;
+            }
+            .hero-title { font-size: 2.2rem !important; margin-bottom: 20px !important; }
+            #hero-face-img { width: 250px !important; margin: 0 auto; }
             .dossier-grid { grid-template-columns: 1fr; gap: 40px; }
             .nav-links { display: none; }
+            #spinwheel-container { height: 500px; }
         }
 
-        /* --- 3D Spinwheel Component --- */
-        .wheel-outer-container {
-            width: 100%;
-            height: 600px;
-            margin: 40px 0;
-            position: relative;
-            background: radial-gradient(circle at 50% 50%, #0d0d0d 0%, #000 100%);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
+        /* Target iPhone 15 and similar */
+        @media (max-width: 430px) {
+            .hero-title { font-size: 1.8rem !important; }
+            .hero-description { font-size: 1.1rem; }
+            #hero-face-img { width: 200px !important; }
+            #spinwheel-container { height: 400px; }
         }
 
-        .wheel-container {
+        /* --- 3D Vertical Cylinder Spinwheel --- */
+        #spinwheel-container {
+            perspective: 1200px;
+            height: 700px;
             width: 100%;
-            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1500px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 40px;
+            touch-action: none; /* Block touch behavior to prioritize spin entirely */
+            user-select: none;
+            -webkit-user-select: none;
             cursor: grab;
         }
 
-        .wheel-container:active { cursor: grabbing; }
-
-        .wheel {
-            position: relative;
-            width: 90%;
-            height: 100%;
-            transform-style: preserve-3d;
-            transition: transform 0.1s linear;
+        #spinwheel-container:active {
+            cursor: grabbing;
         }
 
-        .wheel-item {
+        #spinwheel {
             position: absolute;
             width: 100%;
-            height: 90px;
+            max-width: 800px;
+            transform-style: preserve-3d;
+            /* Will be rotated dynamically using transform: rotateX */
+            will-change: transform;
+        }
+
+        .wheel-card {
+            position: absolute;
+            top: -25px; /* Center relative to container */
             left: 0;
-            top: 50%;
-            margin-top: -45px;
+            width: 100%;
+            height: 50px;
+            background: var(--bg-panel);
+            border: 1px solid rgba(0, 200, 255, 0.2);
+            border-radius: 6px;
+            padding: 10px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 50px;
-            background: rgba(15, 15, 15, 0.9);
-            border: 1px solid rgba(0, 200, 255, 0.1);
-            border-radius: 12px;
-            backface-visibility: hidden;
-            backdrop-filter: blur(10px);
-            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s, transform 0.3s;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            cursor: pointer;
             text-decoration: none;
             color: inherit;
+            transform-origin: 50% 50%;
+            /* Box-shadow for the subtle border glow */
+            box-shadow: 0 0 10px rgba(0, 200, 255, 0.05);
+            /* Backface-visibility not hidden, since we manage opacity manually */
+            will-change: transform, opacity, filter, box-shadow;
+            transition: border-color 0.2s;
         }
 
-        .wheel-item:hover {
+        .wheel-card:hover {
             border-color: var(--accent);
-            box-shadow: 0 0 30px rgba(0, 200, 255, 0.3);
-            background: rgba(25, 25, 25, 1);
-            z-index: 100;
-            transform: scale(1.02) !important; /* Will be combined with 3D transform by JS if needed, but here we just want a slight pop */
+            box-shadow: 0 0 20px rgba(0, 200, 255, 0.2);
         }
 
-        .wheel-item:active {
-            transform: scale(0.98) !important;
-        }
-
-        .wheel-item-content {
+        .wheel-card-meta {
             display: flex;
-            flex-direction: column;
-            gap: 2px;
-            pointer-events: none;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
         }
 
-        .wheel-item-category {
+        .wheel-card-category {
             font-size: 0.65rem;
             font-weight: 800;
             color: var(--accent);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
+            flex-shrink: 0;
+            min-width: 120px;
         }
 
-        .wheel-item-title {
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            white-space: nowrap;
-            overflow: hidden;
+        .wheel-card-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--highlight);
             text-overflow: ellipsis;
-            max-width: 650px;
+            overflow: hidden;
+            white-space: nowrap;
         }
 
-        .wheel-item-link {
-            text-decoration: none;
+        .wheel-card-action {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             background: var(--btn-bg);
-            color: white;
-            padding: 10px 22px;
+            color: #FFFFFF;
+            padding: 6px 14px;
             border-radius: 100px;
-            font-size: 0.85rem;
+            font-size: 0.65rem;
             font-weight: 700;
-            transition: transform 0.2s, background 0.2s;
+            flex-shrink: 0;
+            transition: opacity 0.2s;
         }
 
-        .wheel-item-link:hover {
+        .wheel-card:hover .wheel-card-action {
+            opacity: 0.8;
             background: var(--btn-hover);
-            transform: scale(1.05);
         }
 
-        /* Gradient Overlays for "rounded" look */
-        .wheel-overlay {
+        /* Overlay to fade out edges if desired */
+        .spinwheel-overlay {
             position: absolute;
-            left: 0;
-            width: 100%;
-            height: 25%;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, var(--bg) 0%, transparent 20%, transparent 80%, var(--bg) 100%);
             pointer-events: none;
             z-index: 10;
-        }
-        .wheel-overlay-top {
-            top: 0;
-            background: linear-gradient(to bottom, #000 0%, transparent 100%);
-        }
-        .wheel-overlay-bottom {
-            bottom: 0;
-            background: linear-gradient(to top, #000 0%, transparent 100%);
-        }
-
-        /* Subtle Spin Info */
-        .wheel-hint {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            color: rgba(255, 255, 255, 0.3);
-            pointer-events: none;
-            z-index: 20;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
         }
 
         /* Subtle Dusty Space Background */
@@ -482,14 +467,10 @@
                 <h2 class="section-title">Technical Intel & Research</h2>
             </div>
             
-            <div class="wheel-outer-container">
-                <div class="wheel-overlay wheel-overlay-top"></div>
-                <div class="wheel-overlay wheel-overlay-bottom"></div>
-                <div class="wheel-hint">[ DRAG TO SPIN ]</div>
-                <div class="wheel-container" id="wheel-container">
-                    <div class="wheel" id="wheel">
-                        <!-- Items injected by JS -->
-                    </div>
+            <div id="spinwheel-container">
+                <div class="spinwheel-overlay"></div>
+                <div id="spinwheel">
+                    <!-- Cards injected here via JS -->
                 </div>
             </div>
         </section>
@@ -588,196 +569,210 @@
     </footer>
 
     <script>
-        lucide.createIcons();
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Initial State & Variables
+            const posts = [
+                { title: "Identity Is the New Perimeter Breach", category: "Identity Security", url: "identity-is-the-new-perimeter-breach-how-modern-entra-id-attacks-actually-unfold.html" },
+                { title: "APIMSpray Execution Footprint", category: "Offensive Visuals", url: "apimspray_execution_footprint.html" },
+                { title: "Building a BloodHound IR App", category: "Security Engineering", url: "bloodhound_app.html" },
+                { title: "Agent Security: Attacker's Perspective", category: "Identity Security", url: "agent-security-from-an-identity-attackers-perspective.html" },
+                { title: "Practical Cloud Identity IR Playbook", category: "Incident Response", url: "from-first-signal-to-containment-a-practical-cloud-identity-ir-playbook.html" },
+                { title: "Entra ID: Stealth Persistence", category: "Post-Compromise", url: "entra_stealth_persistence.html" },
+                { title: "Entra ID: Device Code Phishing", category: "Offensive Identity", url: "entra_device_code_phishing.html" },
+                { title: "Guardrailed LLM for Incident Response", category: "AI Security", url: "guardrailed-llm-assistance-for-incident-response-useful-fast-and-still-safe.html" },
+                { title: "Weaponizing Azure APIM (DE)", category: "Offensive Research", url: "apim_spray_de.html" },
+                { title: "Ivanti Connect Secure: Hunt & Detect", category: "Detection Engineering", url: "ivanti_exploit_detection.html" },
+                { title: "Sentinel KQL Forge: Natural Language Hunting", category: "Detection Engineering", url: "kql_forge_blog.html" },
+                { title: "Gemini-Powered Azure IR", category: "Incident Response", url: "ir_blog.html" },
+                { title: "LLM-Powered Entra ID Attacks", category: "AI Security", url: "llm_entra_attack.html" },
+                { title: "Entra ID Detection Engineering 2026", category: "Detection Engineering", url: "what-good-entra-id-detection-engineering-looks-like-in-2026.html" },
+                { title: "CVE Template", category: "Research", url: "cve_template.html" },
+                { title: "Dash Dashboard", category: "Research", url: "dash_dashboard.html" },
+                { title: "Dashboard", category: "Research", url: "dashboard.html" },
+                { title: "Dashboard Modern", category: "Research", url: "dashboard_modern.html" },
+                { title: "Printer Report", category: "Research", url: "printer_report.html" },
+                { title: "Roadtools Blog", category: "Research", url: "roadtools_blog.html" },
+                { title: "Kali Terminal", category: "Research", url: "kali_terminal.html" },
+                { title: "Terminal", category: "Research", url: "terminal.html" },
+                { title: "Memory", category: "Research", url: "memory.html" },
+                { title: "Entra ID Password Spraying via APIM (EN)", category: "Offensive Research", url: "https://patrickbinder.medium.com/entra-id-password-spraying-using-apim-as-ip-rotating-mechanism-3620861dd66a" },
+                { title: "App Passwords: A Hidden MFA Bypass Risk", category: "Forensics", url: "https://patrickbinder.medium.com/app-passwords-in-microsoft-entra-id-a-hidden-mfa-bypass-risk-0c70973a078e" }
+            ];
 
-        // Live Date/Time Updater
-        function updateDateTime() {
-            const el = document.getElementById('current-date');
-            if (!el) return;
-            const now = new Date();
-            el.textContent = now.getHours().toString().padStart(2, '0') + ':' + 
-                             now.getMinutes().toString().padStart(2, '0') + ':' + 
-                             now.getSeconds().toString().padStart(2, '0');
-        }
-        setInterval(updateDateTime, 1000);
-        updateDateTime();
-
-        // Autonomous Ship Controller
-        const ship = document.getElementById('ship-node');
-        function launchShip() {
-            const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
-            const randomTop = Math.floor(Math.random() * (docHeight * 0.8)) + (docHeight * 0.05);
-            ship.style.top = `${randomTop}px`;
-            ship.classList.remove('ship-moving');
-            void ship.offsetWidth;
-            ship.classList.add('ship-moving');
-            setTimeout(launchShip, 75000);
-        }
-        setTimeout(launchShip, 5000);
-
-        // Cyber Glitch Face Effect
-        const faceImg = document.getElementById('hero-face-img');
-        const defaultFace = 'logo.png';
-        const glitchFaces = ['up.png', 'down.png', 'left.png', 'right.png'];
-        function triggerFaceGlitch() {
-            if (!faceImg) return;
-            const randomFace = glitchFaces[Math.floor(Math.random() * glitchFaces.length)];
-            faceImg.style.filter = "brightness(1.5) contrast(1.2)";
-            faceImg.src = randomFace;
-            const glimpseDuration = Math.floor(Math.random() * 600) + 200;
-            setTimeout(() => {
-                faceImg.src = defaultFace;
-                faceImg.style.filter = "brightness(1.1)";
-            }, glimpseDuration);
-            const nextGlitchTime = Math.floor(Math.random() * 45000) + 15000;
-            setTimeout(triggerFaceGlitch, nextGlitchTime);
-        }
-        setTimeout(triggerFaceGlitch, Math.floor(Math.random() * 10000) + 5000);
-
-        // --- Spinwheel Logic ---
-        const posts = [
-            { title: "Identity Is the New Perimeter Breach", category: "Identity Security", url: "identity-is-the-new-perimeter-breach-how-modern-entra-id-attacks-actually-unfold.html" },
-            { title: "APIMSpray Execution Footprint", category: "Offensive Visuals", url: "apimspray_execution_footprint.html" },
-            { title: "Building a BloodHound IR App", category: "Security Engineering", url: "bloodhound_app.html" },
-            { title: "Agent Security: Attacker's Perspective", category: "Identity Security", url: "agent-security-from-an-identity-attackers-perspective.html" },
-            { title: "Practical Cloud Identity IR Playbook", category: "Incident Response", url: "from-first-signal-to-containment-a-practical-cloud-identity-ir-playbook.html" },
-            { title: "Entra ID: Stealth Persistence", category: "Post-Compromise", url: "entra_stealth_persistence.html" },
-            { title: "Entra ID: Device Code Phishing", category: "Offensive Identity", url: "entra_device_code_phishing.html" },
-            { title: "Guardrailed LLM for Incident Response", category: "AI Security", url: "guardrailed-llm-assistance-for-incident-response-useful-fast-and-still-safe.html" },
-            { title: "Weaponizing Azure APIM (DE)", category: "Offensive Research", url: "apim_spray_de.html" },
-            { title: "Ivanti Connect Secure: Hunt & Detect", category: "Detection Engineering", url: "ivanti_exploit_detection.html" },
-            { title: "Sentinel KQL Forge: Natural Language Hunting", category: "Detection Engineering", url: "kql_forge_blog.html" },
-            { title: "Gemini-Powered Azure IR", category: "Incident Response", url: "ir_blog.html" },
-            { title: "LLM-Powered Entra ID Attacks", category: "AI Security", url: "llm_entra_attack.html" },
-            { title: "Entra ID Detection Engineering 2026", category: "Detection Engineering", url: "what-good-entra-id-detection-engineering-looks-like-in-2026.html" },
-            { title: "Entra ID Password Spraying via APIM (EN)", category: "Offensive Research", url: "https://patrickbinder.medium.com/entra-id-password-spraying-using-apim-as-ip-rotating-mechanism-3620861dd66a" },
-            { title: "App Passwords: A Hidden MFA Bypass Risk", category: "Forensics", url: "https://patrickbinder.medium.com/app-passwords-in-microsoft-entra-id-a-hidden-mfa-bypass-risk-0c70973a078e" }
-        ];
-
-        const wheel = document.getElementById('wheel');
-        const wheelContainer = document.getElementById('wheel-container');
-        const itemCount = posts.length;
-        const angleStep = 360 / itemCount;
-        const radius = 280; // Adjusted for better screen visibility within 600px container
-
-        posts.forEach((post, i) => {
-            const item = document.createElement('a');
-            item.className = 'wheel-item';
-            item.href = post.url;
-            if (post.url.startsWith('http')) item.target = '_blank';
+            const container = document.getElementById('spinwheel-container');
+            const wheel = document.getElementById('spinwheel');
+            const ship = document.getElementById('ship-node');
+            const faceImg = document.getElementById('hero-face-img');
+            const dateEl = document.getElementById('current-date');
             
-            const angle = i * angleStep;
-            item.style.transform = `rotateX(${angle}deg) translateZ(${radius}px)`;
-            
-            item.innerHTML = `
-                <div class="wheel-item-content">
-                    <span class="wheel-item-category">${post.category}</span>
-                    <span class="wheel-item-title">${post.title}</span>
-                </div>
-                <div class="wheel-item-link">
-                    READ POST <i data-lucide="arrow-right" size="14"></i>
-                </div>
-            `;
-            wheel.appendChild(item);
-        });
+            const RADIUS = 300;
+            const totalCards = posts.length;
+            const ANGLE_PER_CARD = 360 / totalCards;
+            const cardElements = [];
 
-        // Re-initialize lucide for new icons
-        lucide.createIcons();
+            let currentAngle = 0;
+            let isDragging = false;
+            let startY = 0;
+            let startAngle = 0;
+            let velocity = 0;
+            let lastY = 0;
+            let lastTime = 0;
+            let dragDistance = 0;
+            let animationFrame;
 
-        let currentRotation = 30; // Start with a slight tilt for visibility
-        let isDragging = false;
-        let dragStartTime = 0;
-        let lastY = 0;
-        let velocity = 0;
+            // 2. Wheel Construction
+            if (wheel) {
+                posts.forEach((post, index) => {
+                    const cardAngle = index * ANGLE_PER_CARD;
+                    const item = document.createElement('a');
+                    item.className = 'wheel-card';
+                    item.href = post.url;
+                    if (post.url.startsWith('http')) item.target = '_blank';
+                    
+                    item.innerHTML = `
+                        <div class="wheel-card-meta">
+                            <span class="wheel-card-category">${post.category}</span>
+                            <span class="wheel-card-title">${post.title}</span>
+                        </div>
+                        <div class="wheel-card-action">
+                            Read Post <i data-lucide="book-open"></i>
+                        </div>
+                    `;
+                    item.style.transform = `rotateX(${cardAngle}deg) translateZ(${RADIUS}px)`;
+                    cardElements.push({ el: item, angle: cardAngle });
+                    wheel.appendChild(item);
+                });
+            }
 
-        function updateItemVisibility() {
-            const items = document.querySelectorAll('.wheel-item');
-            items.forEach((item, i) => {
-                const angle = (i * angleStep) - currentRotation;
-                const normalizedAngle = ((angle % 360) + 360) % 360;
-                
-                // Calculate opacity based on proximity to front (0 or 360 degrees)
-                let distance = Math.abs(normalizedAngle);
-                if (distance > 180) distance = 360 - distance;
-                
-                const opacity = Math.max(0.1, 1 - (distance / 90));
-                item.style.opacity = opacity;
-                
-                // Optional: disable pointer events for items that are too far back
-                if (distance > 80) {
-                    item.style.pointerEvents = 'none';
-                } else {
-                    item.style.pointerEvents = 'auto';
+            // 3. UI Helpers (Lucide, Clock, Ship, Glitch)
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            function updateDateTime() {
+                if (!dateEl) return;
+                const now = new Date();
+                dateEl.textContent = now.getHours().toString().padStart(2, '0') + ':' + 
+                                     now.getMinutes().toString().padStart(2, '0') + ':' + 
+                                     now.getSeconds().toString().padStart(2, '0');
+            }
+            setInterval(updateDateTime, 1000);
+            updateDateTime();
+
+            function launchShip() {
+                if (!ship) return;
+                const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+                const randomTop = Math.floor(Math.random() * (docHeight * 0.8)) + (docHeight * 0.05);
+                ship.style.top = `${randomTop}px`;
+                ship.classList.remove('ship-moving');
+                void ship.offsetWidth;
+                ship.classList.add('ship-moving');
+                setTimeout(launchShip, 75000);
+            }
+            setTimeout(launchShip, 2000);
+
+            const defaultFace = 'logo.png';
+            const glitchFaces = ['down.png', 'left.png', 'right.png'];
+            function triggerFaceGlitch() {
+                if (!faceImg) return;
+                const randomFace = glitchFaces[Math.floor(Math.random() * glitchFaces.length)];
+                faceImg.style.filter = "brightness(1.5) contrast(1.2)";
+                faceImg.src = randomFace;
+                setTimeout(() => {
+                    faceImg.src = defaultFace;
+                    faceImg.style.filter = "brightness(1.1)";
+                }, 500); // Half a second duration
+                const nextGlitchTime = Math.floor(Math.random() * 5000) + 10000; // 10-15 seconds
+                setTimeout(triggerFaceGlitch, nextGlitchTime);
+            }
+            setTimeout(triggerFaceGlitch, 5000);
+
+            // 4. Core Spin Animation
+            function updateWheel() {
+                if (!wheel) return;
+                if (!isDragging) {
+                    currentAngle += velocity;
+                    velocity *= 0.95;
+                    if (Math.abs(velocity) < 0.01) velocity = 0;
                 }
+                wheel.style.transform = `rotateX(${-currentAngle}deg)`;
+
+                cardElements.forEach(item => {
+                    let effAngle = (item.angle - currentAngle) % 360;
+                    effAngle = ((effAngle % 360) + 360) % 360; 
+                    if (effAngle > 180) effAngle -= 360;
+                    let absAngle = Math.abs(effAngle);
+
+                    if (absAngle > 90) {
+                        item.el.style.opacity = '0';
+                        item.el.style.pointerEvents = 'none';
+                        item.el.style.visibility = 'hidden';
+                    } else {
+                        item.el.style.visibility = 'visible';
+                        const visibility = 1 - (absAngle / 90);
+                        item.el.style.opacity = Math.max(0.1, visibility).toString();
+                        let blurAmt = 0;
+                        if (absAngle > 10) blurAmt = ((absAngle - 10) / 80) * 3;
+                        item.el.style.filter = `blur(${blurAmt}px)`;
+                        item.el.style.pointerEvents = absAngle < 35 ? 'auto' : 'none';
+                    }
+                });
+                animationFrame = requestAnimationFrame(updateWheel);
+            }
+            updateWheel();
+
+            // 5. Interaction Handlers
+            function handleStart(e) {
+                isDragging = true;
+                startY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                startAngle = currentAngle;
+                lastY = startY;
+                lastTime = Date.now();
+                velocity = 0;
+                dragDistance = 0;
+                if (container) container.style.cursor = 'grabbing';
+            }
+
+            function handleMove(e) {
+                if (!isDragging) return;
+                const currentY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                const deltaY = currentY - startY;
+                dragDistance += Math.abs(currentY - lastY);
+                currentAngle = startAngle - (deltaY * 0.5);
+                const currentTime = Date.now();
+                const timeDelta = currentTime - lastTime;
+                if (timeDelta > 0) velocity = -(currentY - lastY) / timeDelta * 8; 
+                lastY = currentY;
+                lastTime = currentTime;
+            }
+
+            function handleEnd() {
+                isDragging = false;
+                if (container) container.style.cursor = 'grab';
+            }
+
+            if (container) {
+                container.addEventListener('mousedown', handleStart, { passive: false });
+                container.addEventListener('touchstart', handleStart, { passive: false });
+                container.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    // One wheel click = one card rotation approx
+                    // Slower: 0.6 instead of 2.0
+                    velocity += (e.deltaY > 0 ? 1 : -1) * 0.6; 
+                }, { passive: false });
+            }
+
+            document.addEventListener('mousemove', handleMove, { passive: false });
+            document.addEventListener('touchmove', (e) => {
+                if(isDragging) e.preventDefault();
+                handleMove(e);
+            }, { passive: false });
+            document.addEventListener('mouseup', handleEnd);
+            document.addEventListener('touchend', handleEnd);
+
+            container?.addEventListener('click', (e) => {
+                const link = e.target.closest('a.wheel-card');
+                if (link && dragDistance > 10) e.preventDefault();
             });
-        }
-
-        wheel.style.transform = `rotateX(${-currentRotation}deg)`;
-        updateItemVisibility();
-
-        wheelContainer.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            dragStartTime = Date.now();
-            lastY = e.clientY;
-            velocity = 0;
         });
-
-        window.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            const deltaY = e.clientY - lastY;
-            velocity = deltaY * 0.4;
-            currentRotation += velocity;
-            wheel.style.transform = `rotateX(${-currentRotation}deg)`;
-            updateItemVisibility();
-            lastY = e.clientY;
-        });
-
-        // Prevent click if we were dragging
-        wheel.addEventListener('click', (e) => {
-            const dragDuration = Date.now() - dragStartTime;
-            if (dragDuration > 200 || Math.abs(velocity) > 1) {
-                e.preventDefault();
-            }
-        });
-
-        window.addEventListener('mouseup', () => {
-            isDragging = false;
-        });
-
-        // Touch support
-        wheelContainer.addEventListener('touchstart', (e) => {
-            isDragging = true;
-            dragStartTime = Date.now();
-            lastY = e.touches[0].clientY;
-            velocity = 0;
-        });
-
-        window.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            const deltaY = e.touches[0].clientY - lastY;
-            velocity = deltaY * 0.4;
-            currentRotation += velocity;
-            wheel.style.transform = `rotateX(${-currentRotation}deg)`;
-            updateItemVisibility();
-            lastY = e.touches[0].clientY;
-            if (Math.abs(deltaY) > 5) e.preventDefault(); 
-        }, { passive: false });
-
-        window.addEventListener('touchend', () => {
-            isDragging = false;
-        });
-
-        // Momentum & Auto-spin Animation
-        function animateWheel() {
-            if (!isDragging && Math.abs(velocity) > 0.05) {
-                velocity *= 0.96; // Friction
-                currentRotation += velocity;
-                wheel.style.transform = `rotateX(${-currentRotation}deg)`;
-                updateItemVisibility();
-            }
-            requestAnimationFrame(animateWheel);
-        }
-        animateWheel();
     </script>
 </body>
 </html>
