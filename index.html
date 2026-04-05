@@ -1,1 +1,456 @@
-<!DOCTYPE html><html><head><title>WebContentNotFound</title></head><body><h1>The requested content does not exist.</h1><p><ul><li>HttpStatusCode: 404</li><li>ErrorCode: WebContentNotFound</li><li>RequestId : 69b553ce-a01e-0002-1c0d-c5650c000000</li><li>TimeStamp : 2026-04-05T15:01:36.9457639Z</li></ul></p></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PATRICK BINDER // EXECUTIVE COMMAND HUB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.284.0/lucide.min.js"></script>
+    <style>
+        :root {
+            --bg-deep: #050505;
+            --bg-card: rgba(12, 12, 12, 0.9);
+            --neon-tech: #00f2ff;
+            --neon-pers: #bc13fe;
+            --neon-succ: #39ff14;
+            --text-main: #f0f0f0;
+            --text-dim: #999;
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .nav-link, .btn-primary, .badge-text { font-family: 'Orbitron', sans-serif; text-transform: uppercase; letter-spacing: 3px; }
+
+        /* Scanning Grid Background with Pulse */
+        .grid-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(var(--glass-border) 1px, transparent 1px), 
+                              linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
+            background-size: 80px 80px;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.15;
+            animation: gridPulse 10s infinite;
+        }
+
+        @keyframes gridPulse { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.2; } }
+
+        /* Premium Floating Navigation */
+        nav {
+            position: fixed;
+            top: 30px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 1200px;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 100px;
+            z-index: 1000;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .nav-brand { font-weight: 900; color: var(--neon-tech); font-size: 1rem; letter-spacing: 5px; }
+        .nav-links { display: flex; gap: 35px; }
+        .nav-link { 
+            text-decoration: none; color: var(--text-dim); font-size: 0.7rem; 
+            transition: var(--transition); cursor: pointer; font-weight: 700;
+        }
+        .nav-link:hover { color: var(--neon-tech); text-shadow: 0 0 15px var(--neon-tech); transform: scale(1.1); }
+
+        /* Ultra-Wide Hero Section */
+        .hero {
+            padding: 240px 20px 120px;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 100px;
+            align-items: center;
+        }
+
+        .system-status {
+            position: relative;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 24px;
+            background: rgba(0, 242, 255, 0.05);
+            border-left: 3px solid var(--neon-tech);
+            font-size: 0.65rem;
+            color: var(--neon-tech);
+            margin-bottom: 30px;
+            font-weight: 900;
+        }
+
+        .hero h1 { font-size: clamp(4rem, 12vw, 7.5rem); margin-bottom: 20px; line-height: 0.85; font-weight: 900; letter-spacing: -5px; }
+        .hero p { font-size: 1.5rem; color: var(--text-dim); max-width: 650px; font-weight: 300; letter-spacing: 1px; }
+
+        /* Tactile Bento Cards */
+        .section-header {
+            max-width: 1400px;
+            margin: 150px auto 60px;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        .section-header h2 { font-size: 2.2rem; font-weight: 900; color: #fff; }
+        .section-line { flex: 1; height: 1px; background: linear-gradient(to right, var(--neon-tech), transparent); opacity: 0.3; }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px 100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 50px;
+            transition: var(--transition);
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--neon-tech);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.8), inset 0 0 30px rgba(0, 242, 255, 0.05);
+        }
+
+        .card-icon { color: var(--neon-tech); margin-bottom: 30px; filter: drop-shadow(0 0 10px var(--neon-tech)); }
+        .card h3 { margin-bottom: 20px; font-size: 1.7rem; font-weight: 800; color: #fff; }
+        .card p { color: var(--text-dim); font-size: 1.05rem; margin-bottom: 30px; flex: 1; font-weight: 400; }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 30px;
+        }
+
+        .btn-text {
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--neon-tech);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+
+        .btn-text:hover { text-shadow: 0 0 10px var(--neon-tech); }
+
+        /* Dossier Interactive */
+        .dossier-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px 150px;
+        }
+
+        .skill-list {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            padding: 60px;
+            border-radius: 20px;
+        }
+
+        .skill-item { margin-bottom: 40px; }
+        .skill-header { display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: 800; font-size: 1rem; color: var(--neon-tech); }
+        .skill-bar { height: 6px; background: rgba(255,255,255,0.03); border-radius: 10px; position: relative; overflow: hidden; }
+        .skill-fill { 
+            position: absolute; left: 0; top: 0; height: 100%; 
+            background: linear-gradient(90deg, var(--neon-tech), var(--neon-pers)); 
+            box-shadow: 0 0 20px var(--neon-tech);
+            width: 0; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Premium Modal */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98);
+            z-index: 2000;
+            display: none;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            animation: modalFade 0.4s ease-out;
+        }
+        @keyframes modalFade { from { opacity: 0; } to { opacity: 1; } }
+
+        .modal-content {
+            max-width: 1200px;
+            margin: 50px auto;
+            background: #080808;
+            border: 1px solid var(--neon-tech);
+            border-radius: 8px;
+            padding: 100px;
+            position: relative;
+            box-shadow: 0 0 150px rgba(0, 242, 255, 0.15);
+        }
+
+        /* Module Tags */
+        .module-tag {
+            font-size: 0.6rem;
+            font-weight: 800;
+            color: var(--neon-tech);
+            border: 1px solid var(--neon-tech);
+            padding: 2px 8px;
+            border-radius: 3px;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 1100px) {
+            .hero { grid-template-columns: 1fr; padding-top: 180px; text-align: center; }
+            .hero p { margin: 0 auto; }
+            .dossier-grid { grid-template-columns: 1fr; }
+            nav { width: 95%; padding: 15px 25px; }
+            .container { grid-template-columns: 1fr; padding: 0 20px 100px; }
+            .card { padding: 40px; }
+        }
+    </style>
+</head>
+<body onload="animateBars()">
+
+    <div class="grid-overlay"></div>
+
+    <nav>
+        <div class="nav-brand">BINDER // HUB</div>
+        <div class="nav-links">
+            <a href="#bio" class="nav-link">IDENT</a>
+            <a href="#intel" class="nav-link">INTEL</a>
+            <a href="#lab" class="nav-link">LAB</a>
+            <a href="#gaming" class="nav-link">ENTERTAINMENT</a>
+            <a href="https://github.com/crtvrffnrt" class="nav-link">CODE</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="bio">
+        <div class="system-status">
+            <div class="status-badge"><span style="width:10px; height:10px; background:var(--neon-succ); border-radius:50%; display:inline-block; box-shadow: 0 0 15px var(--neon-succ)"></span> CONNECTION_STABLE // ARCHITECT_ACTIVE</div>
+            <h1>PATRICK<br /><span style="color:var(--neon-tech)">BINDER</span></h1>
+            <p>Architecting autonomous defense. Senior Intelligence Analyst specializing in high-fidelity adversarial emulation, Entra ID forensics, and machine-speed response.</p>
+            
+            <div style="margin-top: 60px; display: flex; gap: 30px; justify-content: inherit;">
+                <a href="https://ipscan.info" target="_blank" style="text-decoration:none; background: var(--neon-tech); color:#000; padding: 18px 45px; border-radius: 8px; font-weight:900; font-family:'Orbitron'; font-size:0.9rem; display:flex; align-items:center; gap:15px; transition: var(--transition);" onmouseover="this.style.boxShadow='0 0 40px var(--neon-tech)'; this.style.transform='scale(1.05)'" onmouseout="this.style.boxShadow='none'; this.style.transform='scale(1)'">
+                    <i data-lucide="crosshair" size="22"></i> INITIALIZE_RECON
+                </a>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: center; align-items: center; perspective: 2000px;">
+            <div style="width: 450px; height: 450px; border: 2px solid var(--neon-tech); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; animation: rotate 30s linear infinite; box-shadow: inset 0 0 100px rgba(0, 242, 255, 0.1);">
+                <div style="width: 360px; height: 360px; border: 1px dashed var(--neon-pers); border-radius: 50%; opacity: 0.4;"></div>
+                <div style="position: absolute; width: 100%; height: 1px; background: var(--neon-tech); opacity: 0.2;"></div>
+                <div style="position: absolute; height: 100%; width: 1px; background: var(--neon-tech); opacity: 0.2;"></div>
+            </div>
+            <i data-lucide="cpu" size="160" style="position: absolute; color: var(--neon-tech); filter: drop-shadow(0 0 30px var(--neon-tech));"></i>
+        </div>
+    </section>
+
+    <!-- CORE MODULES (Formerly dashboard_modern) -->
+    <div class="section-header" id="intel">
+        <h2>Tactical Intel & Modules</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="container">
+        <div class="card" onclick="window.open('https://blackjacklbohiu36.z6.web.core.windows.net/')">
+            <div class="card-icon"><i data-lucide="pie-chart" size="48"></i></div>
+            <span class="module-tag">EXT_MODULE_01</span>
+            <h3>Blackjack Engine</h3>
+            <p>Card counting and probability simulation engine. Initialized for high-stakes algorithmic testing.</p>
+            <div class="card-footer">
+                <div class="btn-text">LAUNCH_SIM <i data-lucide="play" size="18"></i></div>
+            </div>
+        </div>
+        <div class="card" onclick="window.open('https://stc3ooclawrpfyx.z6.web.core.windows.net/')">
+            <div class="card-icon"><i data-lucide="satellite" size="48"></i></div>
+            <span class="module-tag">EXT_MODULE_02</span>
+            <h3>Neon Extract</h3>
+            <p>Advanced OSINT synthesis terminal. Multi-source intelligence harvesting and data normalization.</p>
+            <div class="card-footer">
+                <div class="btn-text">ESTABLISH_LINK <i data-lucide="link" size="18"></i></div>
+            </div>
+        </div>
+        <div class="card" onclick="openModal('intel-1')">
+            <div class="card-icon"><i data-lucide="zap" size="48"></i></div>
+            <span class="module-tag">INTEL_NODE</span>
+            <h3>Autonomous IR</h3>
+            <p>Real-time Azure REST API interrogation and autonomous KQL-driven forensic sweeps using Gemini CLI.</p>
+            <div class="card-footer">
+                <div class="btn-text">DECRYPT_MANIFEST <i data-lucide="chevron-right" size="18"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- THE LABORATORY -->
+    <div class="section-header" id="lab">
+        <h2>The Laboratory</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class="card-icon"><i data-lucide="target" size="48"></i></div>
+            <h3>Entra Path Sniper</h3>
+            <p>Autonomous graph analysis Identifying Tier-0 privilege escalation routes through nested memberships.</p>
+            <div class="card-footer">
+                <a href="https://github.com/crtvrffnrt" class="btn-text" style="text-decoration:none">SOURCE</a>
+                <a href="entra-path-sniper/index.html" class="btn-text" style="text-decoration:none; color: var(--neon-succ)">BOOT_LIVE</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-icon"><i data-lucide="database" size="48"></i></div>
+            <h3>Memory Matrix</h3>
+            <p>Neural pattern validation and archived sequence records. Historical intelligence data core.</p>
+            <div class="card-footer">
+                <a href="https://github.com/crtvrffnrt" class="btn-text" style="text-decoration:none">SOURCE</a>
+                <a href="memory.html" class="btn-text" style="text-decoration:none; color: var(--neon-succ)">BOOT_LIVE</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ENTERTAINMENT SUBSYSTEMS -->
+    <div class="section-header" id="gaming">
+        <h2>Entertainment Subsystems</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="container">
+        <div class="card" onclick="location.href='snake.html'">
+            <div class="card-icon"><i data-lucide="move" size="40"></i></div>
+            <h3>SNAKE</h3>
+            <p>Recursive data-stream consumption simulation. Avoid self-collision and maximize growth.</p>
+            <div class="card-footer">
+                <div class="btn-text">PLAY_NODE <i data-lucide="gamepad-2" size="18"></i></div>
+            </div>
+        </div>
+        <div class="card" onclick="location.href='pingpong.html'">
+            <div class="card-icon"><i data-lucide="shuffle" size="40"></i></div>
+            <h3>PINGPONG</h3>
+            <p>Deterministic physics-based kinetic energy redirection module.</p>
+            <div class="card-footer">
+                <div class="btn-text">PLAY_NODE <i data-lucide="gamepad-2" size="18"></i></div>
+            </div>
+        </div>
+        <div class="card" onclick="location.href='kingkong.html'">
+            <div class="card-icon"><i data-lucide="arrow-up-circle" size="40"></i></div>
+            <h3>KING KONG</h3>
+            <p>Primal architectural verticality and projectile avoidance simulation.</p>
+            <div class="card-footer">
+                <div class="btn-text">PLAY_NODE <i data-lucide="gamepad-2" size="18"></i></div>
+            </div>
+        </div>
+        <div class="card" onclick="location.href='spaceinvaders.html'">
+            <div class="card-icon"><i data-lucide="crosshair" size="40"></i></div>
+            <h3>INVADERS</h3>
+            <p>Xenomorphic descent defensive protocols. Authorized for full-scale extermination.</p>
+            <div class="card-footer">
+                <div class="btn-text">PLAY_NODE <i data-lucide="gamepad-2" size="18"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DOSSIER -->
+    <div class="section-header">
+        <h2>Dossier_Analytics</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="dossier-grid">
+        <div class="skill-list">
+            <div class="skill-item">
+                <div class="skill-header"><span>ENTRA_ID_INFRASTRUCTURE</span><span>95%</span></div>
+                <div class="skill-bar"><div class="skill-fill" data-percent="95"></div></div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-header"><span>OFFENSIVE_OPERATIONS</span><span>90%</span></div>
+                <div class="skill-bar"><div class="skill-fill" data-percent="90" style="background: var(--neon-pers); box-shadow: 0 0 20px var(--neon-pers);"></div></div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-header"><span>INCIDENT_RESPONSE_KQL</span><span>98%</span></div>
+                <div class="skill-bar"><div class="skill-fill" data-percent="98" style="background: var(--neon-succ); box-shadow: 0 0 20px var(--neon-succ);"></div></div>
+            </div>
+        </div>
+        <div class="card" style="padding: 60px; border-style: dashed; border-width: 2px; justify-content: center; background: transparent;">
+            <div class="card-icon"><i data-lucide="history" size="32" style="color:var(--text-dim)"></i></div>
+            <h3 style="color: var(--neon-tech); font-size: 1.1rem; margin-bottom: 25px;">MISSION_LOGS</h3>
+            <p style="font-size: 1.05rem; margin-bottom: 10px;"><strong>2026:</strong> Senior Architect // Autonomous Defense Lead.</p>
+            <p style="font-size: 1.05rem; margin-bottom: 10px;"><strong>2024:</strong> SOC Operations // Incident Response Commander.</p>
+            <p style="font-size: 0.9rem; color: var(--text-dim); font-style: italic; margin-top:20px;">Detailed records are stored in the secure Memory Matrix.</p>
+        </div>
+    </div>
+
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div style="position: absolute; top: 50px; right: 50px; cursor: pointer; color: var(--neon-tech); opacity: 0.5; transition: 0.3s;" onmouseover="this.style.opacity='1'" onclick="closeModal()"><i data-lucide="x-circle" size="40"></i></div>
+            <h1 id="modal-title" style="color: var(--neon-tech); margin-bottom: 40px; font-size: 2.5rem;">ACCESS_GRANTED</h1>
+            <div id="modal-body" style="font-size: 1.4rem; color: var(--text-dim); border-left: 2px solid var(--neon-pers); padding-left: 30px;"></div>
+            <div style="margin-top: 70px;">
+                <a href="blog_posts_20260402/automated-azure-incident-response-building-a-gemini-powered-blue-team-agent.html" style="text-decoration:none; border: 2px solid var(--neon-pers); color: var(--neon-pers); padding: 20px 45px; font-weight:900; font-family:'Orbitron'; font-size:0.8rem; box-shadow: 0 0 30px rgba(188, 19, 254, 0.1); transition: 0.3s;" onmouseover="this.style.background='var(--neon-pers)'; this.style.color='#000'">DOWNLOAD_TACTICAL_MANIFEST</a>
+            </div>
+        </div>
+    </div>
+
+    <style>@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }</style>
+
+    <script>
+        lucide.createIcons();
+
+        function animateBars() {
+            const fills = document.querySelectorAll('.skill-fill');
+            fills.forEach(fill => {
+                const p = fill.getAttribute('data-percent');
+                setTimeout(() => fill.style.width = p + '%', 200);
+            });
+        }
+
+        function openModal(id) {
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modal-title');
+            const body = document.getElementById('modal-body');
+            title.innerText = "MANIFEST_ALPHA_AUTO_IR";
+            body.innerHTML = "Secure link established. <br><br> Content: Engineering an autonomous response node utilizing Gemini 3 Flash and Azure CLI. <br><br> Node ID: ALPHA-BLUE-01";
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+</html>
