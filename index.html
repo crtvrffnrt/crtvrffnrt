@@ -239,8 +239,8 @@
 
         /* --- 3D Vertical Cylinder Spinwheel --- */
         #spinwheel-container {
-            perspective: 1200px;
-            height: 700px;
+            perspective: 1700px;
+            height: 900px;
             width: 100%;
             display: flex;
             justify-content: center;
@@ -260,8 +260,8 @@
 
         #spinwheel {
             position: absolute;
-            width: 100%;
-            max-width: 800px;
+            width: 110%;
+            max-width: 900px;
             transform-style: preserve-3d;
             /* Will be rotated dynamically using transform: rotateX */
             will-change: transform;
@@ -269,10 +269,10 @@
 
         .wheel-card {
             position: absolute;
-            top: -25px; /* Center relative to container */
+            top: -20px; /* Center relative to container */
             left: 0;
             width: 100%;
-            height: 50px;
+            height: 40px;
             background: var(--bg-panel);
             border: 1px solid rgba(0, 200, 255, 0.2);
             border-radius: 6px;
@@ -298,8 +298,8 @@
         .wheel-card-meta {
             display: flex;
             align-items: center;
-            gap: 15px;
-            width: 100%;
+            gap: 40px;
+            width: 110%;
             overflow: hidden;
             white-space: nowrap;
         }
@@ -311,7 +311,7 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             flex-shrink: 0;
-            min-width: 120px;
+            min-width: 130px;
         }
 
         .wheel-card-title {
@@ -557,21 +557,18 @@
             // 1. Initial State & Variables
             const posts = [
                 { title: "Identity Is the New Perimeter Breach", category: "Identity Security", url: "identity-is-the-new-perimeter-breach-how-modern-entra-id-attacks-actually-unfold.html" },
-                { title: "APIMSpray Execution Footprint", category: "Offensive Visuals", url: "apimspray_execution_footprint.html" },
-                { title: "Building a BloodHound IR App", category: "Security Engineering", url: "bloodhound_app.html" },
                 { title: "Agent Security: Attacker's Perspective", category: "Identity Security", url: "agent-security-from-an-identity-attackers-perspective.html" },
                 { title: "Practical Cloud Identity IR Playbook", category: "Incident Response", url: "from-first-signal-to-containment-a-practical-cloud-identity-ir-playbook.html" },
-                { title: "Entra ID: Stealth Persistence", category: "Post-Compromise", url: "entra_stealth_persistence.html" },
-                { title: "Entra ID: Device Code Phishing", category: "Offensive Identity", url: "entra_device_code_phishing.html" },
-                { title: "Weaponizing Azure APIM (DE)", category: "Offensive Research", url: "apim_spray_de.html" },
-                { title: "Ivanti Connect Secure: Hunt & Detect", category: "Detection Engineering", url: "ivanti_exploit_detection.html" },
+                { title: "Entra ID: Stealth Persistence", category: "Research", url: "entra_stealth_persistence.html" },
+                { title: "Entra ID: Device Code Phishing", category: "Research", url: "entra_device_code_phishing.html" },
+                { title: "Ivanti Connect Secure: Hunt & Detect", category: "CVE", url: "ivanti_exploit_detection.html" },
                 { title: "Gemini-Powered Azure IR", category: "Incident Response", url: "ir_blog.html" },
                 { title: "LLM-Powered Entra ID Attacks", category: "AI Security", url: "llm_entra_attack.html" },
-                { title: "Entra ID Detection Engineering 2026", category: "Detection Engineering", url: "what-good-entra-id-detection-engineering-looks-like-in-2026.html" },
-                { title: "CVE Template", category: "Research", url: "cve_template.html" },
-                { title: "Kali Terminal", category: "Research", url: "kali_terminal.html" },
-                { title: "Do you Know Entra?", category: "Quizzes", url: "terminal.html" },
-                { title: "Entra ID Password Spraying via APIM (EN)", category: "Offensive Research", url: "https://patrickbinder.medium.com/entra-id-password-spraying-using-apim-as-ip-rotating-mechanism-3620861dd66a" },
+                { title: "Entra ID Detection Engineering 2026", category: "Engineering", url: "what-good-entra-id-detection-engineering-looks-like-in-2026.html" },
+                { title: "CVE Template", category: "Template", url: "cve_template.html" },
+                { title: "C3PO SHODAN", category: "Tool", url: "https://github.com/crtvrffnrt/c3PO-shodan" },
+                { title: "Do you Know Entra?", category: "Fun", url: "terminal.html" },
+                { title: "Entra ID Password Spraying via APIM (EN)", category: "Research", url: "https://patrickbinder.medium.com/entra-id-password-spraying-using-apim-as-ip-rotating-mechanism-3620861dd66a" },
                 { title: "App Passwords: A Hidden MFA Bypass Risk", category: "Research", url: "https://patrickbinder.medium.com/app-passwords-in-microsoft-entra-id-a-hidden-mfa-bypass-risk-0c70973a078e" }
             ];
 
@@ -581,16 +578,16 @@
             const faceImg = document.getElementById('hero-face-img');
             const dateEl = document.getElementById('current-date');
             
-            const RADIUS = 300;
+            const RADIUS = 250;
             const totalCards = posts.length;
             const ANGLE_PER_CARD = 360 / totalCards;
             const cardElements = [];
 
-            let currentAngle = 0;
+            let currentAngle = 1;
             let isDragging = false;
             let startY = 0;
             let startAngle = 0;
-            let velocity = 0;
+            let velocity = 0.1;
             let lastY = 0;
             let lastTime = 0;
             let dragDistance = 0;
@@ -676,7 +673,7 @@
                     if (effAngle > 180) effAngle -= 360;
                     let absAngle = Math.abs(effAngle);
 
-                    if (absAngle > 90) {
+                    if (absAngle > 70) {
                         item.el.style.opacity = '0';
                         item.el.style.pointerEvents = 'none';
                         item.el.style.visibility = 'hidden';
