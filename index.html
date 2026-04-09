@@ -260,7 +260,7 @@
 
         #spinwheel {
             position: absolute;
-            width: 110%;
+            width: 100%;
             max-width: 900px;
             transform-style: preserve-3d;
             /* Will be rotated dynamically using transform: rotateX */
@@ -269,14 +269,14 @@
 
         .wheel-card {
             position: absolute;
-            top: -20px; /* Center relative to container */
+            top: -10px; /* Center relative to container */
             left: 0;
-            width: 100%;
-            height: 40px;
+            width: 90%;
+            height: 20px;
             background: var(--bg-panel);
             border: 1px solid rgba(0, 200, 255, 0.2);
             border-radius: 6px;
-            padding: 10px 20px;
+            padding: 4px 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -298,25 +298,25 @@
         .wheel-card-meta {
             display: flex;
             align-items: center;
-            gap: 40px;
-            width: 110%;
+            gap: 10px;
+            width: 100%;
             overflow: hidden;
             white-space: nowrap;
         }
 
         .wheel-card-category {
-            font-size: 0.65rem;
-            font-weight: 800;
+            font-size: 0.55rem;
+            font-weight: 700;
             color: var(--accent);
             text-transform: uppercase;
             letter-spacing: 0.1em;
             flex-shrink: 0;
-            min-width: 130px;
+            min-width: 100px;
         }
 
         .wheel-card-title {
             font-size: 0.95rem;
-            font-weight: 800;
+            font-weight: 700;
             color: var(--highlight);
             text-overflow: ellipsis;
             overflow: hidden;
@@ -494,7 +494,10 @@
                 <h2 class="section-title">NEON-EASM</h2>
                 <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">External Attack Surface Management node. Continuous monitoring and mapping of the public-facing asset landscape to identify exposure points and shadow infrastructure.</p>
                 <div style="margin-top: 15px;">
-                    <a href="https://stc3ooclawrpfyx.z6.web.core.windows.net/easm.html" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
+                    <a href="https://stc3ooclawrpfyx.z6.web.core.windows.net/easm.html" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ Full Screen ]</a>
+                </div>
+                <div style="margin-top: 15px;">
+                    <a href="https://github.com/crtvrffnrt/c3PO-shodan" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ GitHub Repository ]</a>
                 </div>
             </div>
             <div class="iframe-container" style="width: 100%; height: 600px; margin-top: 20px;">
@@ -578,7 +581,7 @@
             const faceImg = document.getElementById('hero-face-img');
             const dateEl = document.getElementById('current-date');
             
-            const RADIUS = 250;
+            const RADIUS = 200;
             const totalCards = posts.length;
             const ANGLE_PER_CARD = 360 / totalCards;
             const cardElements = [];
@@ -642,20 +645,33 @@
             }
             setTimeout(launchShip, 2000);
 
-            const defaultFace = 'logo.png';
-            const glitchFaces = ['up.png', 'down.png', 'left.png', 'right.png'];
-            function triggerFaceGlitch() {
-                if (!faceImg) return;
-                const randomFace = glitchFaces[Math.floor(Math.random() * glitchFaces.length)];
-                faceImg.style.filter = "brightness(1.5) contrast(1.2)";
-                faceImg.src = randomFace;
-                setTimeout(() => {
-                    faceImg.src = defaultFace;
-                    faceImg.style.filter = "brightness(1.1)";
-                }, Math.floor(Math.random() * 600) + 200);
-                setTimeout(triggerFaceGlitch, Math.floor(Math.random() * 45000) + 15000);
-            }
-            setTimeout(triggerFaceGlitch, 5000);
+ const defaultFace = '/logo.png';
+  const glitchFaces = ['/up.png', '/down.png', '/left.png', '/right.png'];
+
+  // Timing controls
+  const firstGlitchDelayMs = 5000;      // delay before the first glitch
+  const minGlitchIntervalMs = 7000;    // minimum time between glitches
+  const maxGlitchIntervalMs = 12500;    // maximum time between glitches
+  const minGlitchShowMs = 50;          // minimum time the glitch image stays visible
+  const maxGlitchShowMs = 500;          // maximum time the glitch image stays visible
+
+  function triggerFaceGlitch() {
+      if (!faceImg) return;
+
+      const randomFace = glitchFaces[Math.floor(Math.random() * glitchFaces.length)];
+      const showTime = Math.floor(Math.random() * (maxGlitchShowMs - minGlitchShowMs + 1)) + minGlitchShowMs;
+
+      faceImg.src = randomFace;
+
+      setTimeout(() => {
+          faceImg.src = defaultFace;
+      }, showTime);
+
+      const nextDelay = Math.floor(Math.random() * (maxGlitchIntervalMs - minGlitchIntervalMs + 1)) + minGlitchIntervalMs;
+      setTimeout(triggerFaceGlitch, nextDelay);
+  }
+
+  setTimeout(triggerFaceGlitch, firstGlitchDelayMs);
 
             // 4. Core Spin Animation
             function updateWheel() {
