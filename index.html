@@ -1,1 +1,751 @@
-<!DOCTYPE html><html><head><title>WebContentNotFound</title></head><body><h1>The requested content does not exist.</h1><p><ul><li>HttpStatusCode: 404</li><li>ErrorCode: WebContentNotFound</li><li>RequestId : 625c2084-c01e-0014-2cb3-c793db000000</li><li>TimeStamp : 2026-04-08T23:59:16.6665040Z</li></ul></p></body></html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patrick Binder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.284.0/lucide.min.js"></script>
+    <style>
+        :root {
+            --bg: #000000;
+            --bg-panel: #0A0A0A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #C7C7C7;
+            --accent: #00C8FF;
+            --border: #1A1A1A;
+            --highlight: #FFFFFF;
+            --btn-bg: #0099FF;
+            --btn-hover: #007ACC;
+            --max-width: 1100px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Tactical Widgets and sections use Secondary Background */
+        .widget-area, .card, .iframe-container {
+            background-color: var(--bg-panel) !important;
+        }
+
+        /* Shiny Spacy Border for Iframes */
+        .iframe-container {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .iframe-container::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background: linear-gradient(45deg, var(--accent), transparent, #8b5cf6, transparent) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .iframe-container:hover {
+            box-shadow: 0 0 25px rgba(0, 200, 255, 0.25);
+        }
+
+        /* Buttons using Primary Button colors */
+        .btn-primary {
+            background: var(--btn-bg) !important;
+            color: #FFFFFF !important;
+        }
+        .btn-primary:hover {
+            background: var(--btn-hover) !important;
+        }
+
+        /* Accent for links and special tags */
+        .section-tag, .card-category, .nav-link:hover, .mono.underline {
+            color: var(--accent) !important;
+        }
+        
+        .skill-fill { background: var(--accent) !important; }
+        .skill-track { background: var(--border) !important; }
+
+        /* Typography Inspired by Medium */
+        h1, h2, h3 { font-weight: 800; letter-spacing: -0.02em; color: var(--highlight); }
+        .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-secondary); }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 20px 0;
+        }
+
+        .nav-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand { font-weight: 900; font-size: 1.1rem; text-transform: uppercase; cursor: pointer; }
+        .nav-links { display: flex; gap: 30px; align-items: center; }
+        
+        .ship-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+            position: relative;
+        }
+
+        .ship-btn:hover {
+            transform: scale(1.4) translateY(-5px);
+            filter: brightness(1.2) drop-shadow(0 0 10px var(--accent));
+        }
+
+        .ship-btn::after {
+            content: attr(title);
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--accent);
+            opacity: 0;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .ship-btn:hover::after {
+            opacity: 1;
+        }
+
+        /* Hero - Deepness and Insight */
+        .hero {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 120px 40px 80px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-meta { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+        .hero-title { font-size: clamp(2.3rem, 6vw, 3.8rem); line-height: 1.1; margin-bottom: 30px; }
+        .hero-description { font-size: 1.4rem; color: var(--text-secondary); max-width: 700px; font-weight: 400; }
+
+        /* Section Layout */
+        section {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .section-header { margin-bottom: 50px; }
+        .section-tag { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.1em; margin-bottom: 10px; display: block; }
+        .section-title { font-size: 2rem; }
+
+        /* Content Cards - Clean & Professional */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 30px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+
+        .card-category { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); }
+        .card-title { font-size: 1.4rem; line-height: 1.3; }
+        .card-desc { color: var(--text-secondary); font-size: 0.95rem; }
+        .card-footer { display: flex; align-items: center; gap: 10px; font-size: 0.8rem; font-weight: 600; margin-top: auto; }
+
+        /* Tactical Widgets */
+        .widget-area {
+            background: var(--bg-panel);
+            border-radius: 4px;
+            padding: 40px;
+            margin-top: 40px;
+        }
+
+        /* Dossier - Expertise Scan */
+        .dossier-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .skill-item { margin-bottom: 25px; }
+        .skill-label { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; }
+        .skill-track { height: 2px; background: var(--border); position: relative; }
+        .skill-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); }
+
+        /* Interactive Elements */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--btn-bg);
+            color: #FFFFFF;
+            padding: 12px 25px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+        .btn-primary:hover { opacity: 0.8; }
+
+        /* Media Queries */
+        @media (max-width: 800px) {
+            .hero { padding: 80px 20px; }
+            .dossier-grid { grid-template-columns: 1fr; gap: 40px; }
+            .nav-links { display: none; }
+        }
+
+        /* --- 3D Vertical Cylinder Spinwheel --- */
+        #spinwheel-container {
+            perspective: 1200px;
+            height: 700px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 40px;
+            touch-action: none; /* Block touch behavior to prioritize spin entirely */
+            user-select: none;
+            -webkit-user-select: none;
+            cursor: grab;
+        }
+
+        #spinwheel-container:active {
+            cursor: grabbing;
+        }
+
+        #spinwheel {
+            position: absolute;
+            width: 100%;
+            max-width: 800px;
+            transform-style: preserve-3d;
+            /* Will be rotated dynamically using transform: rotateX */
+            will-change: transform;
+        }
+
+        .wheel-card {
+            position: absolute;
+            top: -25px; /* Center relative to container */
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: var(--bg-panel);
+            border: 1px solid rgba(0, 200, 255, 0.2);
+            border-radius: 6px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: inherit;
+            transform-origin: 50% 50%;
+            /* Box-shadow for the subtle border glow */
+            box-shadow: 0 0 10px rgba(0, 200, 255, 0.05);
+            /* Backface-visibility not hidden, since we manage opacity manually */
+            will-change: transform, opacity, filter, box-shadow;
+            transition: border-color 0.2s;
+        }
+
+        .wheel-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(0, 200, 255, 0.2);
+        }
+
+        .wheel-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .wheel-card-category {
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            flex-shrink: 0;
+            min-width: 120px;
+        }
+
+        .wheel-card-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--highlight);
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .wheel-card-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--btn-bg);
+            color: #FFFFFF;
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            transition: opacity 0.2s;
+        }
+
+        .wheel-card:hover .wheel-card-action {
+            opacity: 0.8;
+            background: var(--btn-hover);
+        }
+
+        /* Overlay to fade out edges if desired */
+        .spinwheel-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, var(--bg) 0%, transparent 20%, transparent 80%, var(--bg) 100%);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Subtle Dusty Space Background */
+        .space-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: -3;
+        }
+
+        .dusty-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(15, 15, 25, 0.8) 0%, #000 100%);
+            z-index: -2;
+            opacity: 0.15; /* Only 15% visibility as requested */
+            pointer-events: none;
+        }
+
+        /* Ship Animation with White Background Removal */
+        .ship-container {
+            position: absolute; /* Absolute so it stays at specific scroll depths */
+            top: 25%;
+            right: -500px;
+            width: 200px; /* Decent size but far away */
+            z-index: -5; /* Deep in the background */
+            pointer-events: none;
+            mix-blend-mode: screen; 
+            filter: invert(1) opacity(0.75); /* Increased presence */
+        }
+
+        #ship-image {
+            width: 100%;
+            height: auto;
+            filter: invert(1); 
+        }
+
+        .ship-moving {
+            animation: ship-fly-slow 50s linear forwards; /* 5x slower flight */
+        }
+
+        @keyframes ship-fly-slow {
+            0% {
+                right: -500px;
+                transform: scale(0.6);
+            }
+            100% {
+                right: 120%;
+                transform: scale(0.9);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="space-bg"></div>
+    <div class="dusty-layer"></div>
+    <div id="ship-node" class="ship-container">
+        <img id="ship-image" src="space.png" alt="Imperial Star Destroyer">
+    </div>
+
+    <nav>
+        <div class="nav-content">
+            <div class="nav-brand" onclick="window.scrollTo(0,0)">PB | SOC Analyst | Incident Responder | Pentester</div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-meta mono uppercase">
+                <span>Personal Blog</span>
+                <span>•</span>
+                <span>Tech: Azure Storage - Static Web</span>
+                <span>•</span>
+                <span id="current-date">--:--:--</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 60px; margin-bottom: 40px;">
+                <h1 class="hero-title" style="margin-bottom: 0; flex: 1; font-size: clamp(2.3rem, 6vw, 3.8rem);">
+                    Offensive Cybersecurity Expert <span style="white-space: nowrap;">Patrick Binder</span>
+                </h1>
+                <div style="flex-shrink: 0; position: relative;">
+                    <img id="hero-face-img" src="logo.png" alt="Patrick Binder" style="width: 345px; height: auto; display: block; border: none; filter: brightness(1.1); -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 95%); mask-image: radial-gradient(ellipse at center, black 40%, transparent 95%); transition: filter 0.2s ease-in-out;">
+                </div>
+            </div>
+            <p class="hero-description">Focused on Microsoft Cloud pentesting and offensive security with a strong emphasis on real-world attack paths across Entra ID, Azure, and the MS Online Services. I build autonomous systems and adversarial tools to secure the perimeter of modern identity infrastructure.</p>
+            
+            <!-- Modern WSL Terminal Component -->
+            <div style="width: 100%; max-width: 900px; height: 300px; margin-top: 30px; border-radius: 12px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); border: 1px solid rgba(255,255,255,0.1);">
+                <iframe src="kali_terminal.html" style="width: 100%; height: 100%; border: none;" title="Kali WSL Operations Terminal"></iframe>
+            </div>
+        </section>
+
+        <section id="intel">
+            <div class="section-header">
+                <span class="section-tag">Archive // Latest Drops</span>
+                <h2 class="section-title">Technical Intel & Research</h2>
+            </div>
+            
+            <div id="spinwheel-container">
+                <div class="spinwheel-overlay"></div>
+                <div id="spinwheel">
+                    <!-- Cards injected here via JS -->
+                </div>
+            </div>
+        </section>
+
+        <section id="domain-intel">
+            <div class="section-header">
+                <span class="section-tag">Worker // Live Recon</span>
+                <h2 class="section-title">Domain Intelligence</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">A specialized Cloudflare Worker designed for rapid reconnaissance of Microsoft 365 tenants. It extracts public metadata, identifies associated domains, and maps tenant IDs from a single entry point.</p>
+                <div style="margin-top: 15px;">
+                    <a href="https://domain.ipscan.info/" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
+                </div>
+            </div>
+            <div class="iframe-container" style="width: 100%; height: 600px; margin-top: 20px;">
+                <iframe src="https://domain.ipscan.info/" style="width: 100%; height: 100%; border: none;" title="Domain Intelligence Lookup"></iframe>
+            </div>
+        </section>
+
+        <section id="ip-intel">
+            <div class="section-header">
+                <span class="section-tag">Worker // Network Recon</span>
+                <h2 class="section-title">IP Intelligence</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">High-velocity network analysis node. Provides real-time reputation scoring, geolocation, and ASN mapping for forensic investigation and offensive IP rotation validation.</p>
+                <div style="margin-top: 15px;">
+                    <a href="https://www.ipscan.info/" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
+                </div>
+            </div>
+            <div class="iframe-container" style="width: 100%; height: 600px; margin-top: 20px;">
+                <iframe src="https://www.ipscan.info/" style="width: 100%; height: 100%; border: none;" title="IP Intelligence Lookup"></iframe>
+            </div>
+        </section>
+
+        <section id="neon-easm">
+            <div class="section-header">
+                <span class="section-tag">Worker // Perimeter Recon</span>
+                <h2 class="section-title">NEON-EASM</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">External Attack Surface Management node. Continuous monitoring and mapping of the public-facing asset landscape to identify exposure points and shadow infrastructure.</p>
+                <div style="margin-top: 15px;">
+                    <a href="https://stc3ooclawrpfyx.z6.web.core.windows.net/easm.html" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
+                </div>
+            </div>
+            <div class="iframe-container" style="width: 100%; height: 600px; margin-top: 20px;">
+                <iframe src="https://stc3ooclawrpfyx.z6.web.core.windows.net/easm.html" style="width: 100%; height: 100%; border: none;" title="NEON-EASM Live"></iframe>
+            </div>
+        </section>
+
+        <section id="openclaw">
+            <div class="section-header">
+                <span class="section-tag">Node // AI Analysis</span>
+                <h2 class="section-title">OpenClaw AI Supercycle</h2>
+                <p style="margin-top: 15px; color: var(--text-secondary); max-width: 700px;">Autonomous AI-Supercycle Stock Analysis & Strategy node. Orchestrates high-conviction directional forecasts by fusing OSINT with price structure.</p>
+                <div style="margin-top: 15px;">
+                    <a href="https://stc3ooclawrpfyx.z6.web.core.windows.net/index.html" target="_blank" class="mono underline" style="font-size: 0.8rem; color: var(--accent);">[ ACCESS_DIRECT_NODE ]</a>
+                </div>
+            </div>
+            <div class="iframe-container" style="width: 100%; height: 800px; margin-top: 20px;">
+                <iframe src="https://stc3ooclawrpfyx.z6.web.core.windows.net/index.html" style="width: 100%; height: 100%; border: none;" title="OpenClaw AI Supercycle"></iframe>
+            </div>
+        </section>
+        <section id="dossier">
+            <div class="section-header">
+                <span class="section-tag">Human // Dossier</span>
+                <h2 class="section-title">Patrick Binder</h2>
+            </div>
+            <div class="dossier-grid">
+                <div class="expertise">
+                    <p style="margin-bottom: 30px; color: var(--text-secondary);">Security Architect and offensive specialist with deep expertise in Microsoft cloud identity systems. I bridge the gap between architectural hardening and adversarial exploitation, ensuring that cloud-native environments are resilient against modern credential-based attack vectors.</p>
+                    <div class="skill-item">
+                        <div class="skill-label"><span>Entra ID / Azure AD Pentesting</span><span>95%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="width: 95%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label"><span>Detection Engineering & KQL</span><span>98%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="width: 98%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label"><span>Adversarial Emulation</span><span>90%</span></div>
+                        <div class="skill-track"><div class="skill-fill" style="width: 90%"></div></div>
+                    </div>
+                </div>
+                <div class="mission-history mono">
+                    <p style="margin-bottom:20px;"><strong>[CORE_FOCUS]</strong><br>Identifying and weaponizing real-world attack paths across Entra ID and MS Online Services to drive security maturity.</p>
+                    <p><strong>[OPERATIONS]</strong><br>Architecting distributed offensive tools (e.g., apimspray) and autonomous forensic nodes utilizing Gemini CLI and Azure REST APIs.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="padding: 100px 40px; text-align: center; border-top: 1px solid var(--border); opacity: 0.5;">
+        <p class="mono uppercase" style="margin-bottom: 15px;">System Protocol C-3P8 // Designed for the Elite // 2026</p>
+        <div style="display: flex; justify-content: center; gap: 20px; opacity: 0.4;">
+            <a href="https://www.linkedin.com/in/patrick-binder-601021199/" target="_blank" class="mono" style="font-size: 0.7rem; text-decoration: none; color: inherit;">[ LINKEDIN ]</a>
+            <a href="https://github.com/crtvrffnrt" target="_blank" class="mono" style="font-size: 0.7rem; text-decoration: none; color: inherit;">[ GITHUB ]</a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Initial State & Variables
+            const posts = [
+                { title: "Identity Is the New Perimeter Breach", category: "Identity Security", url: "identity-is-the-new-perimeter-breach-how-modern-entra-id-attacks-actually-unfold.html" },
+                { title: "APIMSpray Execution Footprint", category: "Offensive Visuals", url: "apimspray_execution_footprint.html" },
+                { title: "Building a BloodHound IR App", category: "Security Engineering", url: "bloodhound_app.html" },
+                { title: "Agent Security: Attacker's Perspective", category: "Identity Security", url: "agent-security-from-an-identity-attackers-perspective.html" },
+                { title: "Practical Cloud Identity IR Playbook", category: "Incident Response", url: "from-first-signal-to-containment-a-practical-cloud-identity-ir-playbook.html" },
+                { title: "Entra ID: Stealth Persistence", category: "Post-Compromise", url: "entra_stealth_persistence.html" },
+                { title: "Entra ID: Device Code Phishing", category: "Offensive Identity", url: "entra_device_code_phishing.html" },
+                { title: "Weaponizing Azure APIM (DE)", category: "Offensive Research", url: "apim_spray_de.html" },
+                { title: "Ivanti Connect Secure: Hunt & Detect", category: "Detection Engineering", url: "ivanti_exploit_detection.html" },
+                { title: "Gemini-Powered Azure IR", category: "Incident Response", url: "ir_blog.html" },
+                { title: "LLM-Powered Entra ID Attacks", category: "AI Security", url: "llm_entra_attack.html" },
+                { title: "Entra ID Detection Engineering 2026", category: "Detection Engineering", url: "what-good-entra-id-detection-engineering-looks-like-in-2026.html" },
+                { title: "CVE Template", category: "Research", url: "cve_template.html" },
+                { title: "Kali Terminal", category: "Research", url: "kali_terminal.html" },
+                { title: "Do you Know Entra?", category: "Quizzes", url: "terminal.html" },
+                { title: "Entra ID Password Spraying via APIM (EN)", category: "Offensive Research", url: "https://patrickbinder.medium.com/entra-id-password-spraying-using-apim-as-ip-rotating-mechanism-3620861dd66a" },
+                { title: "App Passwords: A Hidden MFA Bypass Risk", category: "Research", url: "https://patrickbinder.medium.com/app-passwords-in-microsoft-entra-id-a-hidden-mfa-bypass-risk-0c70973a078e" }
+            ];
+
+            const container = document.getElementById('spinwheel-container');
+            const wheel = document.getElementById('spinwheel');
+            const ship = document.getElementById('ship-node');
+            const faceImg = document.getElementById('hero-face-img');
+            const dateEl = document.getElementById('current-date');
+            
+            const RADIUS = 300;
+            const totalCards = posts.length;
+            const ANGLE_PER_CARD = 360 / totalCards;
+            const cardElements = [];
+
+            let currentAngle = 0;
+            let isDragging = false;
+            let startY = 0;
+            let startAngle = 0;
+            let velocity = 0;
+            let lastY = 0;
+            let lastTime = 0;
+            let dragDistance = 0;
+            let animationFrame;
+
+            // 2. Wheel Construction
+            if (wheel) {
+                posts.forEach((post, index) => {
+                    const cardAngle = index * ANGLE_PER_CARD;
+                    const item = document.createElement('a');
+                    item.className = 'wheel-card';
+                    item.href = post.url;
+                    if (post.url.startsWith('http')) item.target = '_blank';
+                    
+                    item.innerHTML = `
+                        <div class="wheel-card-meta">
+                            <span class="wheel-card-category">${post.category}</span>
+                            <span class="wheel-card-title">${post.title}</span>
+                        </div>
+                        <div class="wheel-card-action">
+                            Read Post <i data-lucide="book-open"></i>
+                        </div>
+                    `;
+                    item.style.transform = `rotateX(${cardAngle}deg) translateZ(${RADIUS}px)`;
+                    cardElements.push({ el: item, angle: cardAngle });
+                    wheel.appendChild(item);
+                });
+            }
+
+            // 3. UI Helpers (Lucide, Clock, Ship, Glitch)
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            function updateDateTime() {
+                if (!dateEl) return;
+                const now = new Date();
+                dateEl.textContent = now.getHours().toString().padStart(2, '0') + ':' + 
+                                     now.getMinutes().toString().padStart(2, '0') + ':' + 
+                                     now.getSeconds().toString().padStart(2, '0');
+            }
+            setInterval(updateDateTime, 1000);
+            updateDateTime();
+
+            function launchShip() {
+                if (!ship) return;
+                const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+                const randomTop = Math.floor(Math.random() * (docHeight * 0.8)) + (docHeight * 0.05);
+                ship.style.top = `${randomTop}px`;
+                ship.classList.remove('ship-moving');
+                void ship.offsetWidth;
+                ship.classList.add('ship-moving');
+                setTimeout(launchShip, 75000);
+            }
+            setTimeout(launchShip, 2000);
+
+            const defaultFace = 'logo.png';
+            const glitchFaces = ['up.png', 'down.png', 'left.png', 'right.png'];
+            function triggerFaceGlitch() {
+                if (!faceImg) return;
+                const randomFace = glitchFaces[Math.floor(Math.random() * glitchFaces.length)];
+                faceImg.style.filter = "brightness(1.5) contrast(1.2)";
+                faceImg.src = randomFace;
+                setTimeout(() => {
+                    faceImg.src = defaultFace;
+                    faceImg.style.filter = "brightness(1.1)";
+                }, Math.floor(Math.random() * 600) + 200);
+                setTimeout(triggerFaceGlitch, Math.floor(Math.random() * 45000) + 15000);
+            }
+            setTimeout(triggerFaceGlitch, 5000);
+
+            // 4. Core Spin Animation
+            function updateWheel() {
+                if (!wheel) return;
+                if (!isDragging) {
+                    currentAngle += velocity;
+                    velocity *= 0.95;
+                    if (Math.abs(velocity) < 0.01) velocity = 0;
+                }
+                wheel.style.transform = `rotateX(${-currentAngle}deg)`;
+
+                cardElements.forEach(item => {
+                    let effAngle = (item.angle - currentAngle) % 360;
+                    effAngle = ((effAngle % 360) + 360) % 360; 
+                    if (effAngle > 180) effAngle -= 360;
+                    let absAngle = Math.abs(effAngle);
+
+                    if (absAngle > 90) {
+                        item.el.style.opacity = '0';
+                        item.el.style.pointerEvents = 'none';
+                        item.el.style.visibility = 'hidden';
+                    } else {
+                        item.el.style.visibility = 'visible';
+                        const visibility = 1 - (absAngle / 90);
+                        item.el.style.opacity = Math.max(0.1, visibility).toString();
+                        let blurAmt = 0;
+                        if (absAngle > 10) blurAmt = ((absAngle - 10) / 80) * 3;
+                        item.el.style.filter = `blur(${blurAmt}px)`;
+                        item.el.style.pointerEvents = absAngle < 35 ? 'auto' : 'none';
+                    }
+                });
+                animationFrame = requestAnimationFrame(updateWheel);
+            }
+            updateWheel();
+
+            // 5. Interaction Handlers
+            function handleStart(e) {
+                isDragging = true;
+                startY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                startAngle = currentAngle;
+                lastY = startY;
+                lastTime = Date.now();
+                velocity = 0;
+                dragDistance = 0;
+                if (container) container.style.cursor = 'grabbing';
+            }
+
+            function handleMove(e) {
+                if (!isDragging) return;
+                const currentY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                const deltaY = currentY - startY;
+                dragDistance += Math.abs(currentY - lastY);
+                currentAngle = startAngle - (deltaY * 0.5);
+                const currentTime = Date.now();
+                const timeDelta = currentTime - lastTime;
+                if (timeDelta > 0) velocity = -(currentY - lastY) / timeDelta * 8; 
+                lastY = currentY;
+                lastTime = currentTime;
+            }
+
+            function handleEnd() {
+                isDragging = false;
+                if (container) container.style.cursor = 'grab';
+            }
+
+            if (container) {
+                container.addEventListener('mousedown', handleStart, { passive: false });
+                container.addEventListener('touchstart', handleStart, { passive: false });
+                container.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    velocity += (e.deltaY > 0 ? 1 : -1) * 2;
+                }, { passive: false });
+            }
+
+            document.addEventListener('mousemove', handleMove, { passive: false });
+            document.addEventListener('touchmove', (e) => {
+                if(isDragging) e.preventDefault();
+                handleMove(e);
+            }, { passive: false });
+            document.addEventListener('mouseup', handleEnd);
+            document.addEventListener('touchend', handleEnd);
+
+            container?.addEventListener('click', (e) => {
+                const link = e.target.closest('a.wheel-card');
+                if (link && dragDistance > 10) e.preventDefault();
+            });
+        });
+    </script>
+</body>
+</html>
